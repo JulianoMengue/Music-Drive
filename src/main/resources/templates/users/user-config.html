@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: header"></head>
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/1177/1177568.png"
+				style="width: 50px;">
+		</h1>
+		<br>
+		<h1 class="text-info">User configuration</h1>
+		<h3 th:text="${messageSucess}"
+			style="background-color: MediumSeaGreen;" class="rounded"></h3>
+		<br>
+		<h3 class="text-info">Logout?</h3>
+		<a th:href="@{/logout}" class="btn btn-info">Logout</a> <br> <br>
+		<h3 class="text-info">Edit user profile</h3>
+		<a th:href="@{/editUserProfile}" class="btn btn-info">Edit user
+			profile</a> <br> <br>
+		<h3 class="text-info">Password change?</h3>
+		<a th:href="@{/newPassword}" class="btn btn-info">New password</a> <br>
+		<br>
+		<h3 class="text-info">Delete user account?</h3>
+		<a th:href="@{/deleteAccount}" class="btn btn-info">Delete account</a>
+	</div>
+</body>
+</html>

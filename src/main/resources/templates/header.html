@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="header">
+<title>Banana Drive</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/formatting.css}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+</head>
+<style th:fragment="header">
+body {
+	background-image:
+		url("https://cdn.wallpapersafari.com/15/56/rZJpjL.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+	padding-left: 2px;
+	padding-top: 2px;
+	width: 100%;
+}
+</style>
+
+<body th:fragment="header">
+	<div class="container">
+		<table>
+			<tbody>
+				<tr>
+					<td><a th:href="@{/fotos}"><img
+							src="https://image.flaticon.com/icons/png/512/833/833539.png"
+							style="width: 75px;"></a></td>
+					<td><a th:href="@{/audios}"><img
+							src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
+							style="width: 75px;"></a></td>
+					<td><a th:href="@{/docs}"><img
+							src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
+							style="width: 75px;"></a></td>
+					<td><a th:href="@{/buddies}"><img
+							src="https://image.flaticon.com/icons/png/512/476/476844.png"
+							style="width: 75px;"></a></td>
+					<td><a th:href="@{/userConfig}"><img
+							src="https://image.flaticon.com/icons/png/512/1177/1177568.png"
+							style="width: 75px;"></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<a th:text="${userEmail}" class="btn btn-info" style="color: white;"></a>
+	</div>
+	<br>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: header"></head>
+
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/1177/1177568.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/userConfig}" class="btn btn-info">Back</a> <br> <br>
+		<h1 class="text-info">User configuration</h1>
+		<h2 class="text-info">Are you sure?</h2>
+		<a th:href="@{/logoutUser}" class="btn btn-info"
+			th:text="${userEmail} + ' logout'"></a>
+	</div>
+</body>
+</html>

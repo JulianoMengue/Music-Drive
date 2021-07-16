@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Login</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/formatting.css}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+</head>
+
+<style>
+body {
+	background-image:
+		url("https://cdn.wallpapersafari.com/15/56/rZJpjL.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+}
+
+div {
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 100%;
+}
+</style>
+<body>
+	<div>
+		<h3 th:text="${messageSucess}"
+			style="background-color: MediumSeaGreen;" class="rounded"></h3>
+		<h3 th:text="${messageError}" style="background-color: Tomato;"
+			class="rounded"></h3>
+		<h3 th:text="${messageLoginSucess}"
+			style="background-color: MediumSeaGreen;" class="rounded"></h3>
+		<h3 th:text="${messageLoginError}" style="background-color: Tomato;"
+			class="rounded"></h3>
+		<h3 th:text="${messagePasswordSucess}"
+			style="background-color: MediumSeaGreen;" class="rounded"></h3>
+		<h3 th:text="${messagePasswordError}"
+			style="background-color: Tomato;" class="rounded"></h3>
+		<h3 th:text="${error}" style="background-color: Tomato;"
+			class="rounded"></h3>
+		<br>
+		<div class="container">
+		<h1 class="text-info" style="font-size: 8vw">Login</h1>
+		<form method="POST" action="/checkUser" th:object="${user}">
+			<input th:field="${user.email}" class="form-control" type="email"
+				placeholder="E-Mail" required name="email"> <br> <input
+				th:field="${user.password}" class="form-control" type="password"
+				placeholder="Password" required name="password"> <br>
+			<button type="submit" class="btn btn-info">Login</button>
+		</form>
+		<br>
+		<h3 class="text-info" style="font-size: 5vw">Register</h3>
+		<form method="POST" action="/registerUser" th:object="${user}">
+			<input th:field="${user.email}" class="form-control" type="email"
+				placeholder="E-Mail" required> <br>
+			<button type="submit" class="btn btn-info">Register</button>
+		</form>
+		<br>
+		<h3 class="text-info" style="font-size: 3vw">Forgot password?</h3>
+		<form method="POST" action="/passwordForgot" th:object="${user}">
+			<input th:field="${user.email}" class="form-control" type="email"
+				placeholder="E-Mail" required> <br>
+			<button type="submit" class="btn btn-info">Send me a new
+				password</button>
+		</form>
+	</div>
+	</div>
+	<br>
+</body>
+</html>

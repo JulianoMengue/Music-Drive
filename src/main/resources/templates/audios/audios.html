@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: header"></head>
+
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/audios/uploadAudio}" class="btn btn-info">New Audio</a>
+		<br> <br> <br>
+		<table class="table-borderless">
+			<tbody>
+				<tr th:each="audio : ${audios}">
+					<td><a th:text="${audio.title}" class="btn btn-info"
+						th:href="@{/audios/playAudio(id=${audio.id})}"></a></td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

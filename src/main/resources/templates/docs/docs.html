@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"></head>
+
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/docs/uploadDoc}" class="btn btn-info">New text</a><br>
+		<br> <br>
+		<table class="table-borderless">
+			<tbody>
+				<tr th:each="doc : ${docs}">
+					<td><a th:href="@{/docs/showDoc(id=${doc.id})}"
+						th:text="${doc.title}" class="btn btn-info"></a></td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"></head>
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/audios}" class="btn btn-info">Back</a> <br> <br>
+		<h1 th:text="${title}" class="text-info"></h1>
+		<table class="table-borderless">
+			<thead>
+				<tr>
+					<td><a th:href="@{/audios/renameAudio(id=*{id})}"><img
+							src="https://image.flaticon.com/icons/png/512/126/126794.png"
+							style="width: 40px;"></a> <a
+						th:href="@{/audios/delete(id=*{id})}"><img
+							src="https://image.flaticon.com/icons/png/512/2496/2496733.png"
+							style="width: 40px;"></a> <a th:text="${size+'KB'}"
+						class="btn btn-info" style="color: white;"></a></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><audio preload="auto" controls autoplay>
+							<source th:src="${'data:audio/mpeg;base64,'+audio}"
+								type="audio/mpeg">
+						</audio></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

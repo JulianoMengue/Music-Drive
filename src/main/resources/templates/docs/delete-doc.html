@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: header"></head>
+
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/docs/showDoc(id=${id})}" class="btn btn-info">Back</a>
+		<br> <br>
+		<h1 class="text-info">Are you sure?</h1>
+		<h3 th:text="${title}" class="btn btn-info"></h3>
+		<a th:href="@{/docs/deleteConfirm(id=${id})}"><img
+			src="https://image.flaticon.com/icons/png/512/2496/2496733.png"
+			style="width: 40px;"></a>
+		<table class="table-borderless">
+			<tbody>
+				<tr>
+					<td><iframe th:src="${'data:'+docType+';base64,'+doc}"
+							width="600" height="400"></iframe></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

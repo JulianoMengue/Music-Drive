@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header">
+<link rel="stylesheet"
+	href="/audit-web/src/main/resources/templates/css/code.css">
+</head>
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/1177/1177568.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/userConfig}" class="btn btn-info">Back</a><br> <br>
+		<h1 class="text-info">Profile</h1>
+		<h4 class="text-info" th:text="${email}"></h4>
+		<img th:src="${'data:image/png;base64,'+ image}" width="100%" /> <label>Full
+			name:</label>
+		<h6 class="text-info" th:text="${profile.fullName}"></h6>
+		<label>Birthday:</label>
+		<h6 class="text-info" th:text="${profile.birthday}"></h6>
+		<label>Address:</label>
+		<h6 class="text-info" th:text="${profile.address}"></h6>
+		<label>Country:</label>
+		<h6 class="text-info" th:text="${profile.country}"></h6>
+		<br>
+		<h1 class="text-info">Edit Profile</h1>
+		<form method="POST" action="/saveProfile"
+			enctype="multipart/form-data" class="form-group mb-5">
+			<label>Full name:</label> <input class="form-control" type="text"
+				required name="fullName"> <label>Birthday:</label><input
+				class="form-control" type="date" required name="birthday"> <label>Address:</label>
+			<input class="form-control" type="text" required name="address">
+			<label>Country:</label> <input class="form-control" type="text"
+				required name="country"><br> <label>Profile
+				foto:</label> <input type="file" name="image" accept="image/png/jpeg"
+				placeholder="Profile foto" required class="btn btn-info"> <br>
+			<br> <input type="submit" value="Upload" class="btn btn-info" />
+		</form>
+	</div>
+	<br>
+</body>
+</html>

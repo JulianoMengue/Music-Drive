@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header">
+<link rel="stylesheet"
+	href="/audit-web/src/main/resources/templates/css/code.css">
+</head>
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/1177/1177568.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/userConfig}" class="btn btn-info">Back</a> <br> <br>
+		<h3 class="text-info">User Data</h3>
+		<table class="table">
+			<thead>
+				<tr th:each="data : ${data}" class="text-info">
+					<th>Fotos</th>
+					<th>Audios</th>
+					<th>Docs</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="text-info">
+					<td><a th:text="${data.fotos}"></a></td>
+					<td><a th:text="${data.audios}"></a></td>
+					<td><a th:text="${data.docs}"></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<h1 class="text-info">Are you sure?</h1>
+		<h6 class="text-info">All your data would be lost!</h6>
+		<a th:href="@{/userConfig}" class="btn btn-info">Cancel</a> <a
+			th:href="@{/deleteAccountConfirm}" class="btn btn-info"
+			th:text="${'Delete '+user}"></a>
+	</div>
+
+</body>
+</html>
