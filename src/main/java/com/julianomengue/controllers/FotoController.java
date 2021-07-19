@@ -73,7 +73,7 @@ public class FotoController {
 		}
 	}
 
-	@RequestMapping(value = "/showFoto", method = RequestMethod.GET)
+	@GetMapping("/showFoto")
 	public String showUserFotoBig(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		Foto foto = new Foto();
 		foto = this.fotoService.findById(id);

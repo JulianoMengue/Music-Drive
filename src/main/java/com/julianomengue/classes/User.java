@@ -11,6 +11,7 @@ public class User {
 	private String id;
 	private String email;
 	private String password;
+	private List<String> buddies = new ArrayList<String>();
 	private Profile profile = new Profile();
 	private List<Doc> docs = new ArrayList<>();
 	private List<Foto> fotos = new ArrayList<>();
@@ -91,6 +92,18 @@ public class User {
 
 	public void addDoc(Doc doc) {
 		this.docs.add(doc);
+	}
+
+	public List<String> getBuddies() {
+		return buddies;
+	}
+
+	public void setBuddies(List<String> buddies) {
+		this.buddies = buddies;
+	}
+
+	public void addBuddies(String email) {
+		this.buddies.add(email);
 	}
 
 }

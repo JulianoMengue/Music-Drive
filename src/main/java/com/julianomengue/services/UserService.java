@@ -85,4 +85,15 @@ public class UserService {
 		this.userRepo.delete(this.getCurrentUser(email));
 	}
 
+	public boolean isHeMyBuddy(String buddyEmail, String userEmail) {
+		User user = this.findOne(userEmail);
+		boolean exist = false;
+		for (int i = 0; i < user.getBuddies().size(); i++) {
+			if (user.getBuddies().get(i).contentEquals(buddyEmail)) {
+				exist = true;
+			}
+		}
+		return exist;
+	}
+
 }

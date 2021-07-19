@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"></head>
+
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/476/476844.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/buddies/searchBuddy}" class="btn btn-info">Search
+			Buddy</a> <br> <br> <br>
+		<table class="table-borderless">
+			<tbody>
+				<tr th:each="buddy : ${buddies}">
+					<td><a th:href="@{/buddies/showBuddy(buddyEmail=${buddy})}"
+						th:text="${buddy}" class="btn btn-info"></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
+
