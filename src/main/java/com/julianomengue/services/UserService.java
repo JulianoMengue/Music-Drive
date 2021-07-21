@@ -1,5 +1,6 @@
 package com.julianomengue.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -50,6 +51,35 @@ public class UserService {
 		return users;
 	}
 
+	public List<String> getAllEmails(String email) {
+		List<String> emails = new ArrayList<String>();
+		List<User> users = this.userRepo.findAll();
+		User user = this.getCurrentUser(email);
+		List<String> buddies = user.getBuddies();
+
+		for (int i = 0; i < users.size(); i++) {
+			if (!users.get(i).getEmail().contentEquals(email)) {
+				emails.add(users.get(i).getEmail());
+			}
+		}
+
+		for (int i = 0; i < buddies.size(); i++) {
+			for (int y = 0; y < emails.size(); y++) {
+				if (buddies.get(i).contentEquals(emails.get(y))) {
+					emails.remove(y);
+				}
+			}
+		}
+		
+		return emails;
+	}
+
+	public List<String> getYourBuddies(String email) {
+		User user = this.getCurrentUser(email);
+		List<String> allEmails = user.getBuddies();
+		return allEmails;
+	}
+
 	public User findOne(String email) {
 		ExampleMatcher matcher = ExampleMatcher.matching().withIgnorePaths("id", "password", "profile", "chat",
 				"buddies", "fotos", "audios", "docs");
@@ -83,17 +113,6 @@ public class UserService {
 
 	public void delete(String email) {
 		this.userRepo.delete(this.getCurrentUser(email));
-	}
-
-	public boolean isHeMyBuddy(String buddyEmail, String userEmail) {
-		User user = this.findOne(userEmail);
-		boolean exist = false;
-		for (int i = 0; i < user.getBuddies().size(); i++) {
-			if (user.getBuddies().get(i).contentEquals(buddyEmail)) {
-				exist = true;
-			}
-		}
-		return exist;
 	}
 
 }

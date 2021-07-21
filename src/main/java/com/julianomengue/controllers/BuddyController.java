@@ -1,6 +1,7 @@
 package com.julianomengue.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,10 +28,19 @@ public class BuddyController {
 	String error = "Not allowed!";
 
 	@GetMapping()
+	public String getYoursBuddies(Model model, @CookieValue("email") String userEmail) {
+		List<String> emails = this.userService.getYourBuddies(userEmail);
+		model.addAttribute("userEmail", userEmail);
+		model.addAttribute("buddies", emails);
+		return "buddies/your-buddies";
+	}
+
+	@GetMapping("/yourBuddies")
 	public String buddies(Model model, @CookieValue("email") String userEmail) throws IOException {
 		if (!userEmail.isBlank()) {
+			List<String> emails = this.userService.getAllEmails(userEmail);
 			model.addAttribute("userEmail", userEmail);
-			model.addAttribute("buddies", this.userService.getCurrentUser(userEmail).getBuddies());
+			model.addAttribute("buddies", emails);
 			return "buddies/buddies";
 		} else {
 			User user = new User();
@@ -51,36 +61,36 @@ public class BuddyController {
 		return "buddies/buddy-profile";
 	}
 
-	@GetMapping("/searchBuddy")
-	public String searchBuddy(Model model, @CookieValue("email") String userEmail) {
-		User user = new User();
-		model.addAttribute("user", user);
+	@GetMapping("/addBuddy")
+	public String addBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String buddyEmail) {
+		String message = " is your buddy know";
+		User user = this.userService.getCurrentUser(userEmail);
+		User buddy = this.userService.getCurrentUser(buddyEmail);
+		user.addBuddies(buddyEmail);
+		buddy.addBuddies(userEmail);
+		this.userService.save(user);
+		this.userService.save(buddy);
+		List<String> emails = this.userService.getAllEmails(userEmail);
 		model.addAttribute("userEmail", userEmail);
-		return "buddies/search-buddy";
+		model.addAttribute("buddies", emails);
+		model.addAttribute("message", buddyEmail + message);
+		return "buddies/buddies";
 	}
 
-	@RequestMapping("/addNewBuddy")
-	public String addNewBuddy(Model model, User buddy, @CookieValue("email") String userEmail) {
-		String success = " is your buddy now.";
-		String error = "User don't exist";
-		User newBuddy = this.userService.findOne(buddy.getEmail());
-		boolean exist = this.userService.isHeMyBuddy(buddy.getEmail(), userEmail);
-		if (newBuddy.getEmail() != null && !exist) {
-			User user = this.userService.getCurrentUser(userEmail);
-			user.addBuddies(newBuddy.getEmail());
-			this.userService.save(user);
-			model.addAttribute("success", buddy.getEmail() + success);
-			User newUser = new User();
-			model.addAttribute("user", newUser);
-			model.addAttribute("userEmail", userEmail);
-			return "buddies/search-buddy";
-		} else {
-			model.addAttribute("error", error);
-			User newUser = new User();
-			model.addAttribute("user", newUser);
-			model.addAttribute("userEmail", userEmail);
-			return "buddies/search-buddy";
-		}
+	@GetMapping("/deleteBuddy")
+	public String deleteBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String buddyEmail) {
+		String message = " is not your buddy anymore";
+		User user = this.userService.getCurrentUser(userEmail);
+		User buddy = this.userService.getCurrentUser(buddyEmail);
+		user.removeBuddies(buddyEmail);
+		buddy.removeBuddies(userEmail);
+		this.userService.save(user);
+		this.userService.save(buddy);
+		List<String> emails = this.userService.getYourBuddies(userEmail);
+		model.addAttribute("userEmail", userEmail);
+		model.addAttribute("buddies", emails);
+		model.addAttribute("message", buddyEmail + message);
+		return "buddies/your-buddies";
 	}
 
 }

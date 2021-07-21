@@ -8,17 +8,17 @@
 			<img src="https://image.flaticon.com/icons/png/512/476/476844.png"
 				style="width: 50px;">
 		</h1>
-		<a th:href="@{/buddies}" class="btn btn-info">Back</a> <br> <br>
-		<br>
-		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
+		<a th:href="@{/buddies/yourBuddies}" class="btn btn-info">Add
+			buddies</a> <br> <br> <br>
+		<h3 th:text="${message}" style="background-color: Tomato;"
 			class="rounded"></h3>
 		<table class="table-borderless">
 			<tbody>
 				<tr th:each="buddy : ${buddies}">
 					<td><a th:href="@{/buddies/showBuddy(buddyEmail=${buddy})}"
 						th:text="${buddy}" class="btn btn-info"></a></td>
-					<td><a th:href="@{/buddies/addBuddy(buddyEmail=${buddy})}"><img
-							src="https://img-premium.flaticon.com/png/512/3285/premium/3285480.png?token=exp=1626866858~hmac=069c98fce5432be5a0957c841b07ed29"
+					<td><a th:href="@{/buddies/deleteBuddy(buddyEmail=${buddy})}"><img
+							src="https://image.flaticon.com/icons/png/512/2496/2496733.png"
 							style="width: 40px;"></a></td>
 				</tr>
 			</tbody>

@@ -106,4 +106,12 @@ public class User {
 		this.buddies.add(email);
 	}
 
+	public void removeBuddies(String email) {
+		for (int i = 0; i < this.buddies.size(); i++) {
+			if (this.buddies.get(i).contentEquals(email)) {
+				this.buddies.remove(i);
+			}
+		}
+	}
+
 }
