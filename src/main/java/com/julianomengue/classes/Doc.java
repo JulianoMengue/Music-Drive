@@ -109,4 +109,12 @@ public class Doc {
 		this.owners.add(owner);
 	}
 
+	public void removeOwners(String owner) {
+		for (int i = 0; i < this.owners.size(); i++) {
+			if (this.owners.get(i).contentEquals(owner)) {
+				this.owners.remove(i);
+			}
+		}
+	}
+
 }

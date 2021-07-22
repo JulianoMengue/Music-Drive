@@ -10,6 +10,8 @@
 		</h1>
 		<a th:href="@{/docs/uploadDoc}" class="btn btn-info">New text</a><br>
 		<br> <br>
+		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
+			class="rounded"></h3>
 		<table class="table-borderless">
 			<tbody>
 				<tr th:each="doc : ${docs}">

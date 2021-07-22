@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -106,7 +105,7 @@ public class FotoController {
 		}
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@GetMapping("/delete")
 	public String deleteFoto(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
 			Foto foto = fotoService.findById(id);
@@ -123,10 +122,13 @@ public class FotoController {
 		}
 	}
 
-	@RequestMapping(value = "/deleteConfirm", method = RequestMethod.GET)
+	@GetMapping("/deleteConfirm")
 	public String deleteComfirm(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
 			this.fotoService.deleteFotoFromUser(id, userEmail);
+			Foto foto = this.fotoService.findById(id);
+			foto.removeOwners(userEmail);
+			this.fotoService.save(foto);
 			return "redirect:/fotos";
 		} else {
 			model.addAttribute("error", error);
@@ -136,7 +138,7 @@ public class FotoController {
 		}
 	}
 
-	@RequestMapping(value = "/renameFoto", method = RequestMethod.GET)
+	@GetMapping("/renameFoto")
 	public String renameFoto(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
 			model.addAttribute("userEmail", userEmail);

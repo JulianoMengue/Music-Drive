@@ -84,6 +84,8 @@ public class AudioController {
 	public String playAudio(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		Audio audio = new Audio();
 		audio = this.audioService.findById(id);
+		String name = this.audioService.getAudioByIdFromUser(id, userEmail).getTitle();
+		audio.setTitle(name);
 		boolean exist = false;
 		for (int i = 0; i < audio.getOwners().size(); i++) {
 			if (audio.getOwners().get(i).contentEquals(userEmail)) {
@@ -126,6 +128,9 @@ public class AudioController {
 	public String deleteComfirm(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
 			this.audioService.deleteAudioFromUser(id, this.userService.getCurrentUser(userEmail));
+			Audio audio = this.audioService.findById(id);
+			audio.removeOwners(userEmail);
+			this.audioService.save(audio);
 			model.addAttribute("userEmail", userEmail);
 			model.addAttribute("audios", this.userService.getCurrentUser(userEmail).getAudios());
 			return "redirect:/audios";

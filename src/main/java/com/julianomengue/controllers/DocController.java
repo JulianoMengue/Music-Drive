@@ -1,27 +1,28 @@
 package com.julianomengue.controllers;
 
+import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.julianomengue.classes.Doc;
 import com.julianomengue.classes.User;
-import com.julianomengue.repositories.DocRepository;
 import com.julianomengue.services.DocService;
 import com.julianomengue.services.UserService;
 
 @Controller
 @RequestMapping("/docs")
 public class DocController {
-
-	@Autowired
-	private DocRepository docRepo;
 
 	@Autowired
 	private DocService docService;
@@ -63,7 +64,7 @@ public class DocController {
 		}
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@PostMapping("/add")
 	public String addDoc(@RequestParam("doc") MultipartFile doc, Model model, @CookieValue("email") String userEmail)
 			throws Exception {
 		if (!userEmail.isBlank() && doc.getContentType().contentEquals("text/plain")) {
@@ -85,7 +86,7 @@ public class DocController {
 		}
 	}
 
-	@RequestMapping(value = "/showDoc", method = RequestMethod.GET)
+	@GetMapping("/showDoc")
 	public String showUserDocBig(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		Doc doc = new Doc();
 		doc = this.docService.findById(id);
@@ -114,7 +115,7 @@ public class DocController {
 		}
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@GetMapping("/delete")
 	public String deleteDoc(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
 			model.addAttribute("userEmail", userEmail);
@@ -132,12 +133,13 @@ public class DocController {
 		}
 	}
 
-	@RequestMapping(value = "/deleteConfirm", method = RequestMethod.GET)
+	@GetMapping("/deleteConfirm")
 	public String deleteComfirm(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
-			Doc doc = docService.findById(id);
-			this.docRepo.delete(doc);
 			this.docService.deleteDocFromUser(id, this.userService.getCurrentUser(userEmail));
+			Doc doc = this.docService.findById(id);
+			doc.removeOwners(userEmail);
+			this.docService.save(doc);
 			return "redirect:/docs";
 		} else {
 			model.addAttribute("error", error);
@@ -147,7 +149,7 @@ public class DocController {
 		}
 	}
 
-	@RequestMapping(value = "/renameDoc", method = RequestMethod.GET)
+	@GetMapping("/renameDoc")
 	public String renameDoc(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
 			model.addAttribute("userEmail", userEmail);
@@ -181,6 +183,41 @@ public class DocController {
 			model.addAttribute("user", user);
 			return "users/user-login";
 		}
+	}
+
+	@RequestMapping("/sendDoc")
+	public String sendDocToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id,
+			HttpServletResponse response) {
+		Doc doc = this.docService.getDocByIdFromUser(id, userEmail);
+		List<String> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+		model.addAttribute("title", doc.getTitle());
+		model.addAttribute("buddies", buddies);
+		model.addAttribute("userEmail", userEmail);
+		Cookie cookie = null;
+		cookie = new Cookie("docId", id);
+		cookie.setSecure(false);
+		cookie.setHttpOnly(false);
+		cookie.setMaxAge(7 * 24 * 60 * 60);
+		response.addCookie(cookie);
+		return "docs/send-doc-to-buddy";
+	}
+
+	@RequestMapping("/sendDocToBuddy")
+	public String comfirmSendDocToBuddy(Model model, @CookieValue("email") String userEmail,
+			@RequestParam String buddyEmail, @CookieValue("docId") String id) {
+		User buddy = this.userService.getCurrentUser(buddyEmail);
+		Doc doc = this.docService.getDocByIdFromUser(id, userEmail);
+		doc.addOwners(buddyEmail);
+		Doc docFromDatabase = this.docService.findById(id);
+		docFromDatabase.addOwners(buddyEmail);
+		this.docService.save(docFromDatabase);
+		buddy.addDoc(doc);
+		this.userService.save(buddy);
+		String message = doc.getTitle() + " sent to " + buddy.getEmail();
+		model.addAttribute("message", message);
+		model.addAttribute("userEmail", userEmail);
+		model.addAttribute("docs", this.userService.getCurrentUser(userEmail).getDocs());
+		return "docs/docs";
 	}
 
 }
