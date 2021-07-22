@@ -2,6 +2,9 @@ package com.julianomengue.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -166,14 +169,39 @@ public class FotoController {
 	}
 
 	@RequestMapping("/sendFoto")
-	public String sendFotoToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id) {
+	public String sendFotoToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id,
+			HttpServletResponse response) {
 		Foto foto = this.fotoService.findById(id);
 		foto.setTitle(this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle());
 		List<String> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
 		model.addAttribute("foto", this.fotoService.binaryToString(foto));
 		model.addAttribute("buddies", buddies);
 		model.addAttribute("userEmail", userEmail);
+		Cookie cookie = null;
+		cookie = new Cookie("id", id);
+		cookie.setSecure(false);
+		cookie.setHttpOnly(false);
+		cookie.setMaxAge(7 * 24 * 60 * 60);
+		response.addCookie(cookie);
 		return "fotos/send-foto-to-buddy";
+	}
+
+	@RequestMapping("/sendFotoToBuddy")
+	public String comfirmSendFotoToBuddy(Model model, @CookieValue("email") String userEmail,
+			@RequestParam String buddyEmail, @CookieValue("id") String id) {
+		User buddy = this.userService.getCurrentUser(buddyEmail);
+		Foto foto = this.fotoService.getFotoByIdFromUser(id, userEmail);
+		foto.addOwners(buddyEmail);
+		Foto fotoFromDatabase = this.fotoService.findById(id);
+		fotoFromDatabase.addOwners(buddyEmail);
+		this.fotoService.save(fotoFromDatabase);
+		buddy.addFotos(foto);
+		this.userService.save(buddy);
+		String message = foto.getTitle() + " sent to " + buddy.getEmail();
+		model.addAttribute("message", message);
+		model.addAttribute("userEmail", userEmail);
+		model.addAttribute("fotos", this.userService.getCurrentUser(userEmail).getFotos());
+		return "fotos/fotos";
 	}
 
 }

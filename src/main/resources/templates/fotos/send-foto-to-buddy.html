@@ -21,7 +21,7 @@
 						style="width: 40px;"></td>
 					<td><a th:text="${'Send ' + foto.title + ' to ' +buddy}"
 						class="btn btn-info" style="color: white;"
-						th:href="@{/buddies/sendFotoToBuddy(email=${buddy})}">
+						th:href="@{/fotos/sendFotoToBuddy(buddyEmail=${buddy})}">
 					</a></td>
 				</tr>
 			</tbody>
