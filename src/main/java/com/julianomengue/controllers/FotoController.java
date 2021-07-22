@@ -178,7 +178,7 @@ public class FotoController {
 		model.addAttribute("buddies", buddies);
 		model.addAttribute("userEmail", userEmail);
 		Cookie cookie = null;
-		cookie = new Cookie("id", id);
+		cookie = new Cookie("fotoId", id);
 		cookie.setSecure(false);
 		cookie.setHttpOnly(false);
 		cookie.setMaxAge(7 * 24 * 60 * 60);
@@ -188,7 +188,7 @@ public class FotoController {
 
 	@RequestMapping("/sendFotoToBuddy")
 	public String comfirmSendFotoToBuddy(Model model, @CookieValue("email") String userEmail,
-			@RequestParam String buddyEmail, @CookieValue("id") String id) {
+			@RequestParam String buddyEmail, @CookieValue("fotoId") String id) {
 		User buddy = this.userService.getCurrentUser(buddyEmail);
 		Foto foto = this.fotoService.getFotoByIdFromUser(id, userEmail);
 		foto.addOwners(buddyEmail);

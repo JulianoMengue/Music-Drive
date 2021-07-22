@@ -2,6 +2,10 @@ package com.julianomengue.controllers;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -163,6 +167,41 @@ public class AudioController {
 			model.addAttribute("user", user);
 			return "users/user-login";
 		}
+	}
+
+	@RequestMapping("/sendAudio")
+	public String sendAudioToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id,
+			HttpServletResponse response) {
+		Audio audio = this.audioService.getAudioByIdFromUser(id, userEmail);
+		List<String> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+		model.addAttribute("title", audio.getTitle());
+		model.addAttribute("buddies", buddies);
+		model.addAttribute("userEmail", userEmail);
+		Cookie cookie = null;
+		cookie = new Cookie("audioId", id);
+		cookie.setSecure(false);
+		cookie.setHttpOnly(false);
+		cookie.setMaxAge(7 * 24 * 60 * 60);
+		response.addCookie(cookie);
+		return "audios/send-audio-to-buddy";
+	}
+
+	@RequestMapping("/sendAudioToBuddy")
+	public String comfirmSendAudioToBuddy(Model model, @CookieValue("email") String userEmail,
+			@RequestParam String buddyEmail, @CookieValue("audioId") String id) {
+		User buddy = this.userService.getCurrentUser(buddyEmail);
+		Audio audio = this.audioService.getAudioByIdFromUser(id, userEmail);
+		audio.addOwners(buddyEmail);
+		Audio audioFromDatabase = this.audioService.findById(id);
+		audioFromDatabase.addOwners(buddyEmail);
+		this.audioService.save(audioFromDatabase);
+		buddy.addAudios(audio);
+		this.userService.save(buddy);
+		String message = audio.getTitle() + " sent to " + buddy.getEmail();
+		model.addAttribute("message", message);
+		model.addAttribute("userEmail", userEmail);
+		model.addAttribute("audios", this.userService.getCurrentUser(userEmail).getAudios());
+		return "audios/audios";
 	}
 
 }

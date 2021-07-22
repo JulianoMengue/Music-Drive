@@ -10,7 +10,9 @@
 				style="width: 50px;">
 		</h1>
 		<a th:href="@{/audios/uploadAudio}" class="btn btn-info">New Audio</a>
-		<br> <br> <br>
+		<br> <br><br>
+		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
+			class="rounded"></h3>
 		<table class="table-borderless">
 			<tbody>
 				<tr th:each="audio : ${audios}">

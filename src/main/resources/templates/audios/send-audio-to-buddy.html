@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"></head>
+
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/audios}" class="btn btn-info">Back</a> <br> <br>
+
+		<br>
+		<table class="table-borderless">
+			<tbody>
+				<tr th:each="buddy : ${buddies}">
+					<td><a class="btn btn-info" style="color: white;"
+						th:text="${title}"></a></td>
+					<td><img
+						src="https://img-premium.flaticon.com/png/512/307/premium/307497.png?token=exp=1626877307~hmac=a454115a871794bb7751617006fae381"
+						style="width: 40px;"></td>
+					<td><a th:text="${'Send ' + title + ' to ' +buddy}"
+						class="btn btn-info" style="color: white;"
+						th:href="@{/audios/sendAudioToBuddy(buddyEmail=${buddy})}"> </a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
+
