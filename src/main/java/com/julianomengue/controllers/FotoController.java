@@ -1,5 +1,7 @@
 package com.julianomengue.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,7 +88,6 @@ public class FotoController {
 		}
 
 		String name = this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle();
-
 		if (!userEmail.isBlank() && exist) {
 			model.addAttribute("userEmail", userEmail);
 			model.addAttribute("image", this.fotoService.binaryToString(foto).getFotoString());
@@ -162,6 +163,17 @@ public class FotoController {
 			model.addAttribute("user", user);
 			return "users/user-login";
 		}
+	}
+
+	@RequestMapping("/sendFoto")
+	public String sendFotoToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id) {
+		Foto foto = this.fotoService.findById(id);
+		foto.setTitle(this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle());
+		List<String> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+		model.addAttribute("foto", this.fotoService.binaryToString(foto));
+		model.addAttribute("buddies", buddies);
+		model.addAttribute("userEmail", userEmail);
+		return "fotos/send-foto-to-buddy";
 	}
 
 }

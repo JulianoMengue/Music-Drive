@@ -19,7 +19,7 @@
 			<tbody>
 				<tr>
 					<td><img alt="sample"
-						th:src="${'data:image/png;base64,'+image}" width="100%;" /><a
+						th:src="${image}" width="100%;" /><a
 						th:text="${size+'KB'}" class="btn btn-info" style="color: white;"></a>
 						<a th:href="@{/fotos/renameFoto(id=*{id})}"><img
 							src="https://image.flaticon.com/icons/png/512/126/126794.png"

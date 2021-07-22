@@ -16,6 +16,9 @@
 				<tr th:each="audio : ${audios}">
 					<td><a th:text="${audio.title}" class="btn btn-info"
 						th:href="@{/audios/playAudio(id=${audio.id})}"></a></td>
+					<td><a th:href="@{/audios/sendAudio(id=${audio.id})}"><img
+							src="https://image.flaticon.com/icons/png/512/476/476844.png"
+							style="width: 40px;"></a></td>
 
 				</tr>
 			</tbody>

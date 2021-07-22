@@ -21,9 +21,14 @@
 						class="btn btn-primary" style="color: white;"></a></td>
 				</tr>
 			</thead>
+			<tbody>
+				<tr>
+					<td><iframe th:src="*{'data:'+docType+';base64,'+doc}"
+							width="408px;" height="700px;" style="background-color: white;"></iframe></td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
-	<iframe th:src="*{'data:'+docType+';base64,'+doc}" width="408px;"
-		height="700px;" style="background-color: white;"></iframe>
+
 </body>
 </html>

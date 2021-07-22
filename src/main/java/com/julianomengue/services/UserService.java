@@ -70,7 +70,7 @@ public class UserService {
 				}
 			}
 		}
-		
+
 		return emails;
 	}
 

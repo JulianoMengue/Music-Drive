@@ -13,8 +13,7 @@
 		<a th:href="@{/buddies}" class="btn btn-info">Back</a><br> <br>
 		<h1 class="text-info">Profile</h1>
 		<h4 class="text-info" th:text="${email}"></h4>
-		<img th:src="${'data:image/png;base64,'+ image}" width="100%" /> <label>Full
-			name:</label>
+		<img th:src="${image}" width="100%" /> <label>Full name:</label>
 		<h6 class="text-info" th:text="${profile.fullName}"></h6>
 		<label>Birthday:</label>
 		<h6 class="text-info" th:text="${profile.birthday}"></h6>
@@ -22,7 +21,6 @@
 		<h6 class="text-info" th:text="${profile.address}"></h6>
 		<label>Country:</label>
 		<h6 class="text-info" th:text="${profile.country}"></h6>
-
 	</div>
 	<br>
 </body>
