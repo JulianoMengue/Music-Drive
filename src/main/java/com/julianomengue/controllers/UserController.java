@@ -2,6 +2,8 @@ package com.julianomengue.controllers;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.julianomengue.classes.Foto;
 import com.julianomengue.classes.Profile;
 import com.julianomengue.classes.User;
 import com.julianomengue.services.FotoService;
@@ -126,10 +129,6 @@ public class UserController {
 		if (!userEmail.isBlank()) {
 			User user = new User();
 			user = this.userService.getCurrentUser(userEmail);
-			if (user.getProfile().getFotoId() == null) {
-				user.getProfile().setFotoId("60f187a4173fb40dfaadb33c");
-				this.userService.save(user);
-			}
 			model.addAttribute("image", this.fotoService
 					.binaryToString(this.fotoService.findById(user.getProfile().getFotoId())).getFotoString());
 			model.addAttribute("email", userEmail);
@@ -151,7 +150,9 @@ public class UserController {
 			@RequestParam("country") String country) throws Exception {
 		if (!userEmail.isBlank()) {
 			model.addAttribute("userEmail", userEmail);
-			String fotoId = this.fotoService.addFoto(image, userEmail);
+			Foto foto = new Foto();
+			foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, image.getBytes()));
+			String fotoId = this.fotoService.insert(foto).getId();
 			Profile profile = new Profile(fullName, birthday, address, country, fotoId);
 			User user = new User();
 			user = this.userService.getCurrentUser(userEmail);
