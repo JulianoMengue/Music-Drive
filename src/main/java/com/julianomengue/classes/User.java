@@ -11,6 +11,7 @@ public class User {
 	private String id;
 	private String email;
 	private String password;
+	private String name;
 	private List<String> buddies = new ArrayList<String>();
 	private Chat chat = new Chat();
 	private Profile profile = new Profile();
@@ -25,6 +26,7 @@ public class User {
 		super();
 		this.email = email;
 		this.password = password;
+		this.name = this.getProfile().getFullName();
 	}
 
 	public void setAudios(List<Audio> audios) {
@@ -113,6 +115,14 @@ public class User {
 
 	public void setChat(Chat chat) {
 		this.chat = chat;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void removeBuddies(String email) {

@@ -176,6 +176,7 @@ public class FotoController {
 		foto.setTitle(this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle());
 		List<String> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
 		model.addAttribute("foto", this.fotoService.binaryToString(foto));
+		model.addAttribute("id", foto.getId());
 		model.addAttribute("buddies", buddies);
 		model.addAttribute("userEmail", userEmail);
 		Cookie cookie = null;

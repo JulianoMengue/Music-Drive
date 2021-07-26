@@ -19,6 +19,7 @@ public class UserDataService {
 		userFiles.setFotos(user.getFotos().size());
 		userFiles.setAudios(user.getAudios().size());
 		userFiles.setDocs(user.getDocs().size());
+		userFiles.setBuddies(user.getBuddies().size());
 		return userFiles;
 	}
 

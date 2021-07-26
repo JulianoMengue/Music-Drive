@@ -5,6 +5,7 @@ public class UserFiles {
 	private int fotos;
 	private int audios;
 	private int docs;
+	private int buddies;
 
 	public UserFiles() {
 		super();
@@ -32,6 +33,14 @@ public class UserFiles {
 
 	public void setDocs(int docs) {
 		this.docs = docs;
+	}
+
+	public int getBuddies() {
+		return buddies;
+	}
+
+	public void setBuddies(int buddies) {
+		this.buddies = buddies;
 	}
 
 }

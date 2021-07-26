@@ -77,6 +77,11 @@ public class UserService {
 	public List<String> getYourBuddies(String email) {
 		User user = this.getCurrentUser(email);
 		List<String> allEmails = user.getBuddies();
+		List<String> names = new ArrayList<String>();
+		for (int i = 0; i < allEmails.size(); i++) {
+			names.add(email);
+		}
+
 		return allEmails;
 	}
 
@@ -113,6 +118,16 @@ public class UserService {
 
 	public void delete(String email) {
 		this.userRepo.delete(this.getCurrentUser(email));
+		List<User> users = this.userRepo.findAll();
+		for (int i = 0; i < users.size(); i++) {
+			for (int y = 0; y < users.get(i).getBuddies().size(); y++) {
+				if (users.get(i).getBuddies().get(y).contentEquals(email)) {
+					users.get(i).getBuddies().remove(y);
+					this.userRepo.save(users.get(i));
+				}
+			}
+
+		}
 	}
 
 }

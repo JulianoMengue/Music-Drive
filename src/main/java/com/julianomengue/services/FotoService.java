@@ -112,8 +112,10 @@ public class FotoService {
 
 	public Foto addProfileFoto(MultipartFile file, String email) throws IOException {
 		Foto foto = new Foto();
-		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
-		foto.setSize(file.getSize() / 1024);
+		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, this.resizeImage(file)));
+		int i = this.resizeImage(file).length;
+		Long t = (long) i;
+		foto.setSize(t / 1024);
 		foto.addOwners(email);
 		foto.setTitle(file.getOriginalFilename());
 		return this.fotoRepo.insert(foto);
