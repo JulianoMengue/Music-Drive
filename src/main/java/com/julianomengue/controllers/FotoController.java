@@ -82,7 +82,6 @@ public class FotoController {
 		Foto foto = new Foto();
 		foto = this.fotoService.findById(id);
 		boolean exist = false;
-
 		for (int i = 0; i < foto.getOwners().size(); i++) {
 			if (foto.getOwners().get(i).contentEquals(userEmail)) {
 				exist = true;

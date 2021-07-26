@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.julianomengue.classes.Chat;
+import com.julianomengue.classes.Message;
 import com.julianomengue.classes.User;
 import com.julianomengue.services.FotoService;
 import com.julianomengue.services.UserService;
@@ -59,6 +61,32 @@ public class BuddyController {
 		model.addAttribute("profile", user.getProfile());
 		model.addAttribute("userEmail", userEmail);
 		return "buddies/buddy-profile";
+	}
+
+	@GetMapping("/messages")
+	public String messages(Model model, @CookieValue("email") String userEmail) {
+		Chat chat = this.userService.getCurrentUser(userEmail).getChat();
+		model.addAttribute("userEmail", userEmail);
+		model.addAttribute("messages", chat.getMessages());
+		Message message = new Message();
+		model.addAttribute("message", message);
+		return "buddies/messages";
+	}
+
+	@GetMapping("/saveMessage")
+	public String saveMessage(Model model, @CookieValue("email") String userEmail,
+			@RequestParam("content") String content) {
+		Message message = new Message();
+		message.setContent(content);
+		message.addOwner(userEmail);
+		User user = this.userService.getCurrentUser(userEmail);
+		user.getChat().addMessages(message);
+		user = this.userService.save(user);
+		Message newMessage = new Message();
+		model.addAttribute("messages", user.getChat().getMessages());
+		model.addAttribute("userEmail", userEmail);
+		model.addAttribute("message", newMessage);
+		return "buddies/messages";
 	}
 
 	@GetMapping("/addBuddy")

@@ -14,11 +14,6 @@
 		<table class="table-borderless">
 			<tbody>
 				<tr th:each="buddy : ${buddies}">
-					<td><img alt="sample" th:src="${foto.fotoString}"
-						width="150px;" /></td>
-					<td><img
-						src="https://img-premium.flaticon.com/png/512/2794/premium/2794748.png?token=exp=1626968058~hmac=38ddea839a5c961dcac3ade99c31d7fe"
-						style="width: 40px;"></td>
 					<td><a th:text="${'Send ' + foto.title + ' to ' +buddy}"
 						class="btn btn-info" style="color: white;"
 						th:href="@{/fotos/sendFotoToBuddy(buddyEmail=${buddy})}"> </a></td>

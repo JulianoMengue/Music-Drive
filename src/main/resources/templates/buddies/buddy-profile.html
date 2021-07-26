@@ -10,11 +10,13 @@
 			<img src="https://image.flaticon.com/icons/png/512/476/476844.png"
 				style="width: 50px;">
 		</h1>
-		<a th:href="@{/buddies/yourBuddies}" class="btn btn-info">Back</a><br>
-		<br>
+		<a th:href="@{/buddies}" class="btn btn-info">Back</a><br> <br>
 		<h1 class="text-info">Profile</h1>
 		<h4 class="text-info" th:text="${email}"></h4>
-		<img th:src="${image}" width="100%" /> <label>Full name:</label>
+		<a th:href="@{/buddies/messages}"><img
+			src="https://image.flaticon.com/icons/png/512/1041/1041916.png"
+			style="width: 50px;"></a> <img th:src="${image}" width="100%" /> <label>Full
+			name:</label>
 		<h6 class="text-info" th:text="${profile.fullName}"></h6>
 		<label>Birthday:</label>
 		<h6 class="text-info" th:text="${profile.birthday}"></h6>

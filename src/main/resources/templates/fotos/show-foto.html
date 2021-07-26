@@ -9,25 +9,22 @@
 		</h1>
 		<a th:href="@{/fotos}" class="btn btn-info">Back</a><br> <br>
 
+
 		<table class="table-borderless">
-			<thead>
-				<tr>
-					<td><a class="btn btn-info" th:text="*{title}"
-						style="color: white;"> </a></td>
-				</tr>
-			</thead>
 			<tbody>
 				<tr>
-					<td><img alt="sample"
-						th:src="${image}" width="100%;" /><a
-						th:text="${size+'KB'}" class="btn btn-info" style="color: white;"></a>
-						<a th:href="@{/fotos/renameFoto(id=*{id})}"><img
+					<td><h4 class="text-info" th:text="*{title}"></h4> <a
+						th:text="${size+'KB'}" class="btn btn-info " style="color: white;"></a>
+						<a th:href="@{/fotos/renameFoto(id=*{id})}"> <img
 							src="https://image.flaticon.com/icons/png/512/126/126794.png"
-							style="width: 40px;"></a> <a
-						th:href="@{/fotos/delete(id=${id})}"><img
+							style="width: 30px;"></a> <a
+						th:href="@{/fotos/delete(id=${id})}"> <img
 							src="https://image.flaticon.com/icons/png/512/2496/2496733.png"
-							style="width: 40px;"></a></td>
-
+							style="width: 30px;"></a> <a
+						th:href="@{/fotos/sendFoto(id=${id})}"> <img
+							src="https://image.flaticon.com/icons/png/512/889/889578.png"
+							style="width: 30px;"></a> <img alt="sample" th:src="${image}"
+						width="100%;" /></td>
 
 				</tr>
 			</tbody>

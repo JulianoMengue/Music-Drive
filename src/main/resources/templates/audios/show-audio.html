@@ -18,7 +18,10 @@
 						th:href="@{/audios/delete(id=*{id})}"><img
 							src="https://image.flaticon.com/icons/png/512/2496/2496733.png"
 							style="width: 40px;"></a> <a th:text="${size+'KB'}"
-						class="btn btn-info" style="color: white;"></a></td>
+						class="btn btn-info" style="color: white;"></a> <a
+						th:href="@{/audios/sendAudio(id=${id})}"><img
+							src="https://image.flaticon.com/icons/png/512/476/476844.png"
+							style="width: 40px;"></a></td>
 				</tr>
 			</thead>
 			<tbody>

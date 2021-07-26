@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"></head>
+<body>
+	<div class="container">
+		<h1>
+			<img src="https://image.flaticon.com/icons/png/512/1041/1041916.png"
+				style="width: 50px;">
+		</h1>
+		<a th:href="@{/buddies}" class="btn btn-info">Back</a><br> <br>
+
+		<form method="GET" action="/buddies/saveMessage">
+			<div class="input-group mb-3">
+				<button type="submit" class="btn btn-info">Insert</button>
+				<input type="text" class="form-control" name="content" required
+					autocomplete=off autofocus>
+			</div>
+		</form>
+
+		<table class="table-borderless">
+			<tbody>
+				<tr th:each="message : ${messages}">
+					<td><a th:text="${message.content}" class="btn btn-info"
+						style="color: white;"></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

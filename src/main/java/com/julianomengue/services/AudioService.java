@@ -89,6 +89,7 @@ public class AudioService {
 				file.getOriginalFilename(), email);
 		audio = audioRepo.insert(audio);
 		Audio newAudio = new Audio(audio.getId(), audio.getTitle(), audio.getSize());
+		newAudio.addOwners(email);
 		User user = new User();
 		user = this.userService.getCurrentUser(email);
 		user.getAudios().add(newAudio);

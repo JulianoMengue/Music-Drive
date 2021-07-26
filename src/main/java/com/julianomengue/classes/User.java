@@ -12,6 +12,7 @@ public class User {
 	private String email;
 	private String password;
 	private List<String> buddies = new ArrayList<String>();
+	private Chat chat = new Chat();
 	private Profile profile = new Profile();
 	private List<Doc> docs = new ArrayList<>();
 	private List<Foto> fotos = new ArrayList<>();
@@ -104,6 +105,14 @@ public class User {
 
 	public void addBuddies(String email) {
 		this.buddies.add(email);
+	}
+
+	public Chat getChat() {
+		return chat;
+	}
+
+	public void setChat(Chat chat) {
+		this.chat = chat;
 	}
 
 	public void removeBuddies(String email) {

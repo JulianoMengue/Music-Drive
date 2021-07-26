@@ -1,11 +1,18 @@
 package com.julianomengue.services;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.julianomengue.classes.Foto;
 import com.julianomengue.classes.User;
 import com.julianomengue.repositories.FotoRepository;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 public class FotoService {
@@ -82,8 +91,10 @@ public class FotoService {
 
 	public String addFoto(MultipartFile file, String email) throws Exception {
 		Foto foto = new Foto();
-		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
-		foto.setSize(file.getSize() / 1024);
+		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, this.resizeImage(file)));
+		int i = this.resizeImage(file).length;
+		Long t = (long) i;
+		foto.setSize(t / 1024);
 		foto.addOwners(email);
 		foto.setTitle(file.getOriginalFilename());
 		foto = this.fotoRepo.insert(foto);
@@ -91,6 +102,7 @@ public class FotoService {
 		newFoto.setId(foto.getId());
 		newFoto.setTitle(foto.getTitle());
 		newFoto.setSize(file.getSize() / 1024);
+		newFoto.addOwners(email);
 		User user = new User();
 		user = this.userService.getCurrentUser(email);
 		user.addFotos(newFoto);
@@ -105,6 +117,15 @@ public class FotoService {
 		foto.addOwners(email);
 		foto.setTitle(file.getOriginalFilename());
 		return this.fotoRepo.insert(foto);
+	}
+
+	public byte[] resizeImage(MultipartFile file) throws IOException {
+		BufferedImage image = Thumbnails.of(file.getInputStream()).scale(1).asBufferedImage();
+		BufferedImage outputImage = Scalr.resize(image, 400);
+		File outputfile = new File("image.png");
+		ImageIO.write(outputImage, "png", outputfile);
+		byte[] bytes = Files.readAllBytes(Paths.get("image.png"));
+		return bytes;
 	}
 
 }

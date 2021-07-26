@@ -10,18 +10,17 @@
 				style="width: 50px;">
 		</h1>
 		<a th:href="@{/audios/uploadAudio}" class="btn btn-info">New Audio</a>
-		<br> <br><br>
+		<br> <br> <br>
 		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
 			class="rounded"></h3>
 		<table class="table-borderless">
 			<tbody>
 				<tr th:each="audio : ${audios}">
+					<td><img
+						src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
+						style="width: 30px;"></td>
 					<td><a th:text="${audio.title}" class="btn btn-info"
 						th:href="@{/audios/playAudio(id=${audio.id})}"></a></td>
-					<td><a th:href="@{/audios/sendAudio(id=${audio.id})}"><img
-							src="https://image.flaticon.com/icons/png/512/476/476844.png"
-							style="width: 40px;"></a></td>
-
 				</tr>
 			</tbody>
 		</table>
