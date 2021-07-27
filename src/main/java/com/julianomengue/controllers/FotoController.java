@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.julianomengue.classes.Buddy;
 import com.julianomengue.classes.Foto;
 import com.julianomengue.classes.User;
 import com.julianomengue.services.FotoService;
@@ -174,7 +175,7 @@ public class FotoController {
 			HttpServletResponse response) {
 		Foto foto = this.fotoService.findById(id);
 		foto.setTitle(this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle());
-		List<String> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+		List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
 		model.addAttribute("foto", this.fotoService.binaryToString(foto));
 		model.addAttribute("id", foto.getId());
 		model.addAttribute("buddies", buddies);

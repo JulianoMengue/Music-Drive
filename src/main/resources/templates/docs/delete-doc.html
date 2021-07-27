@@ -19,8 +19,9 @@
 		<table class="table-borderless">
 			<tbody>
 				<tr>
-					<td><iframe th:src="${'data:'+docType+';base64,'+doc}"
-							width="600" height="400"></iframe></td>
+					<td><iframe th:src="*{'data:'+docType+';base64,'+doc}"
+							width="380px;" height="700px;" style="background-color: white;">
+						</iframe></td>
 				</tr>
 			</tbody>
 		</table>

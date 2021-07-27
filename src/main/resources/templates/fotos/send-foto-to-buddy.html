@@ -16,9 +16,9 @@
 					<td><img
 						src="https://image.flaticon.com/icons/png/512/889/889578.png"
 						style="width: 30px;"></td>
-					<td><a th:text="${'Send ' + foto.title + ' to ' +buddy}"
+					<td><a th:text="${'Send ' + foto.title + ' to ' +buddy.email}"
 						class="btn btn-info" style="color: white;"
-						th:href="@{/fotos/sendFotoToBuddy(buddyEmail=${buddy})}"> </a></td>
+						th:href="@{/fotos/sendFotoToBuddy(buddyEmail=${buddy.email})}"> </a></td>
 				</tr>
 			</tbody>
 		</table>

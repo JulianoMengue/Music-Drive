@@ -6,7 +6,7 @@ public class Profile {
 	private String birthday;
 	private String address;
 	private String country;
-	private String fotoId = "60f9829b038d4f6a91573273";
+	private String fotoId = "60ff05a9bf4b9c775a9cf1fc";
 
 	public Profile() {
 		super();

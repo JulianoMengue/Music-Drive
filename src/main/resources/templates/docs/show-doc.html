@@ -18,13 +18,16 @@
 						th:href="@{/docs/delete(id=${id})}"><img
 							src="https://image.flaticon.com/icons/png/512/2496/2496733.png"
 							style="width: 40px;"></a> <a th:text="${size+'KB'}"
-						class="btn btn-primary" style="color: white;"></a></td>
+						class="btn btn-primary" style="color: white;"></a> <a
+						th:href="@{/docs/sendDoc(id=${id})}"><img
+							src="https://image.flaticon.com/icons/png/512/476/476844.png"
+							style="width: 40px;"></a></td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td><iframe th:src="*{'data:'+docType+';base64,'+doc}"
-							width="408px;" height="700px;" style="background-color: white;"></iframe></td>
+							width="380px;" height="700px;" style="background-color: white;"></iframe></td>
 				</tr>
 			</tbody>
 		</table>

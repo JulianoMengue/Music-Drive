@@ -11,8 +11,7 @@ public class User {
 	private String id;
 	private String email;
 	private String password;
-	private String name;
-	private List<String> buddies = new ArrayList<String>();
+	private List<Buddy> buddies = new ArrayList<Buddy>();
 	private Chat chat = new Chat();
 	private Profile profile = new Profile();
 	private List<Doc> docs = new ArrayList<>();
@@ -26,7 +25,6 @@ public class User {
 		super();
 		this.email = email;
 		this.password = password;
-		this.name = this.getProfile().getFullName();
 	}
 
 	public void setAudios(List<Audio> audios) {
@@ -97,16 +95,16 @@ public class User {
 		this.docs.add(doc);
 	}
 
-	public List<String> getBuddies() {
+	public List<Buddy> getBuddies() {
 		return buddies;
 	}
 
-	public void setBuddies(List<String> buddies) {
+	public void setBuddies(List<Buddy> buddies) {
 		this.buddies = buddies;
 	}
 
-	public void addBuddies(String email) {
-		this.buddies.add(email);
+	public void addBuddies(Buddy buddy) {
+		this.buddies.add(buddy);
 	}
 
 	public Chat getChat() {
@@ -117,17 +115,9 @@ public class User {
 		this.chat = chat;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public void removeBuddies(String email) {
 		for (int i = 0; i < this.buddies.size(); i++) {
-			if (this.buddies.get(i).contentEquals(email)) {
+			if (this.buddies.get(i).getEmail().contentEquals(email)) {
 				this.buddies.remove(i);
 			}
 		}

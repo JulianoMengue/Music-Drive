@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.julianomengue.classes.Buddy;
 import com.julianomengue.classes.Doc;
 import com.julianomengue.classes.User;
 import com.julianomengue.services.DocService;
@@ -189,7 +190,7 @@ public class DocController {
 	public String sendDocToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id,
 			HttpServletResponse response) {
 		Doc doc = this.docService.getDocByIdFromUser(id, userEmail);
-		List<String> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+		List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
 		model.addAttribute("title", doc.getTitle());
 		model.addAttribute("buddies", buddies);
 		model.addAttribute("userEmail", userEmail);

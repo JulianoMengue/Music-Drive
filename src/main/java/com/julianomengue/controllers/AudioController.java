@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.julianomengue.classes.Audio;
+import com.julianomengue.classes.Buddy;
 import com.julianomengue.classes.User;
 import com.julianomengue.services.AudioService;
 import com.julianomengue.services.UserService;
@@ -178,7 +179,7 @@ public class AudioController {
 	public String sendAudioToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id,
 			HttpServletResponse response) {
 		Audio audio = this.audioService.getAudioByIdFromUser(id, userEmail);
-		List<String> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+		List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
 		model.addAttribute("title", audio.getTitle());
 		model.addAttribute("buddies", buddies);
 		model.addAttribute("userEmail", userEmail);

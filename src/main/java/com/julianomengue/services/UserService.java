@@ -1,6 +1,5 @@
 package com.julianomengue.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -51,39 +50,6 @@ public class UserService {
 		return users;
 	}
 
-	public List<String> getAllEmails(String email) {
-		List<String> emails = new ArrayList<String>();
-		List<User> users = this.userRepo.findAll();
-		User user = this.getCurrentUser(email);
-		List<String> buddies = user.getBuddies();
-
-		for (int i = 0; i < users.size(); i++) {
-			if (!users.get(i).getEmail().contentEquals(email)) {
-				emails.add(users.get(i).getEmail());
-			}
-		}
-
-		for (int i = 0; i < buddies.size(); i++) {
-			for (int y = 0; y < emails.size(); y++) {
-				if (buddies.get(i).contentEquals(emails.get(y))) {
-					emails.remove(y);
-				}
-			}
-		}
-
-		return emails;
-	}
-
-	public List<String> getYourBuddies(String email) {
-		User user = this.getCurrentUser(email);
-		List<String> allEmails = user.getBuddies();
-		List<String> names = new ArrayList<String>();
-		for (int i = 0; i < allEmails.size(); i++) {
-			names.add(email);
-		}
-
-		return allEmails;
-	}
 
 	public User findOne(String email) {
 		ExampleMatcher matcher = ExampleMatcher.matching().withIgnorePaths("id", "password", "profile", "chat",
@@ -121,7 +87,7 @@ public class UserService {
 		List<User> users = this.userRepo.findAll();
 		for (int i = 0; i < users.size(); i++) {
 			for (int y = 0; y < users.get(i).getBuddies().size(); y++) {
-				if (users.get(i).getBuddies().get(y).contentEquals(email)) {
+				if (users.get(i).getBuddies().get(y).getEmail().contentEquals(email)) {
 					users.get(i).getBuddies().remove(y);
 					this.userRepo.save(users.get(i));
 				}
