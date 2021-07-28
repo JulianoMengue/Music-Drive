@@ -180,15 +180,15 @@ public class AudioController {
 			HttpServletResponse response) {
 		Audio audio = this.audioService.getAudioByIdFromUser(id, userEmail);
 		List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
-		model.addAttribute("title", audio.getTitle());
-		model.addAttribute("buddies", buddies);
-		model.addAttribute("userEmail", userEmail);
 		Cookie cookie = null;
 		cookie = new Cookie("audioId", id);
 		cookie.setSecure(false);
 		cookie.setHttpOnly(false);
 		cookie.setMaxAge(7 * 24 * 60 * 60);
 		response.addCookie(cookie);
+		model.addAttribute("title", audio.getTitle());
+		model.addAttribute("buddies", buddies);
+		model.addAttribute("userEmail", userEmail);
 		return "audios/send-audio-to-buddy";
 	}
 

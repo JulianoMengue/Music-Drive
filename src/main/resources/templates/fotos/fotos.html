@@ -3,23 +3,31 @@
 <head th:replace="header :: header"></head>
 
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/fotos/uploadFoto}" class="btn btn-info">New photo</a> <br>
-		<br> <br>
+	<div>
+
+		<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
+			style="width: 50px;"> <br><br><a th:href="@{/fotos/uploadFoto}"
+			class="btn btn-info">New photo</a> <br> 
 		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
 			class="rounded"></h3>
-		<table class="table-borderless">
+		<table class="table">
+			<thead class="table table-info table-striped">
+				<tr>
+					<td></td>
+					<td>Name</td>
+					<td>Size</td>
+					<td>View</td>
+				</tr>
+			</thead>
 			<tbody>
 				<tr th:each="foto : ${fotos}">
 					<td><img
 						src="https://image.flaticon.com/icons/png/512/833/833539.png"
-						style="width: 30px;"><a
-						th:href="@{/fotos/showFoto(id=${foto.id})}"
-						th:text="${foto.title}" class="btn btn-info"></a></td>
+						style="width: 35px;"></td>
+					<td><a th:text="${foto.title}"></a></td>
+					<td><a th:text="${foto.size +'k'}"></a></td>
+					<td><a th:href="@{/fotos/showFoto(id=${foto.id})}"
+						class="btn btn-info">Open</a></td>
 				</tr>
 			</tbody>
 		</table>

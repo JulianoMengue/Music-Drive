@@ -2,27 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="header :: header"></head>
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/fotos}" class="btn btn-info">Back</a><br> <br>
+	<div>
+
+		<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
+			style="width: 50px;"> <br> <br> <a
+			th:href="@{/fotos}" class="btn btn-info">Back</a><br> <br>
 		<table class="table-borderless">
 			<tbody>
 				<tr>
-					<td><h4 class="text-info" th:text="*{title}"></h4> <a
-						th:text="${size+'KB'}" class="btn btn-info " style="color: white;"></a>
-						<a th:href="@{/fotos/renameFoto(id=*{id})}"> <img
+					<td><a th:href="@{/fotos/renameFoto(id=*{id})}"> <img
 							src="https://image.flaticon.com/icons/png/512/126/126794.png"
-							style="width: 30px;"></a> <a
+							style="width: 50px;"></a> <a
 						th:href="@{/fotos/delete(id=${id})}"> <img
 							src="https://image.flaticon.com/icons/png/512/2496/2496733.png"
-							style="width: 30px;"></a> <a
+							style="width: 50px;"></a> <a
 						th:href="@{/fotos/sendFoto(id=${id})}"> <img
 							src="https://image.flaticon.com/icons/png/512/889/889578.png"
-							style="width: 30px;"></a> <img alt="sample" th:src="${image}"
-						width="100%;" style="margin-bottom: 19px;" /></td>
+							style="width: 50px;"></a>
+						<h4 class="text-info" th:text="${title}"></h4> <img
+						alt="sample" th:src="${image}" width="100%;" /></td>
 				</tr>
 			</tbody>
 		</table>

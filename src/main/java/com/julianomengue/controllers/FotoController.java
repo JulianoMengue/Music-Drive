@@ -109,9 +109,10 @@ public class FotoController {
 	public String deleteFoto(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
 			Foto foto = fotoService.findById(id);
+			String title = this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle();
 			model.addAttribute("id", foto.getId());
 			model.addAttribute("image", this.fotoService.binaryToString(foto).getFotoString());
-			model.addAttribute("title", foto.getTitle());
+			model.addAttribute("title", title);
 			model.addAttribute("userEmail", userEmail);
 			return "fotos/delete-foto";
 		} else {

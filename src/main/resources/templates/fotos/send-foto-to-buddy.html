@@ -3,22 +3,22 @@
 <head th:replace="header :: header"></head>
 
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/fotos/showFoto(id=*{id})}" class="btn btn-info">Back</a>
-		<br> <br> <br>
+	<div>
+		<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
+			style="width: 50px;"><br> <br> <a
+			th:href="@{/fotos/showFoto(id=*{id})}" class="btn btn-info">Back</a><br>
+		<br>
+		<h4 th:text="${'Send (' +foto.title + ') to:'}" class="text-info"></h4>
 		<table class="table-borderless">
 			<tbody>
 				<tr th:each="buddy : ${buddies}">
 					<td><img
 						src="https://image.flaticon.com/icons/png/512/889/889578.png"
 						style="width: 30px;"></td>
-					<td><a th:text="${'Send ' + foto.title + ' to ' +buddy.email}"
-						class="btn btn-info" style="color: white;"
-						th:href="@{/fotos/sendFotoToBuddy(buddyEmail=${buddy.email})}"> </a></td>
+					<td><a th:text="${buddy.email}" class="btn btn-info"
+						style="color: white;"
+						th:href="@{/fotos/sendFotoToBuddy(buddyEmail=${buddy.email})}">
+					</a></td>
 				</tr>
 			</tbody>
 		</table>

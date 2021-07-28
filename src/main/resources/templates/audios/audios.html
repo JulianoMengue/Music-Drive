@@ -4,27 +4,33 @@
 <head th:replace="header :: header"></head>
 
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/audios/uploadAudio}" class="btn btn-info">New Audio</a>
-		<br> <br> <br>
+	<div>
+		<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
+			style="width: 50px;"><br> <br> <a
+			th:href="@{/audios/uploadAudio}" class="btn btn-info">New Audio</a> <br>
 		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
 			class="rounded"></h3>
-		<table class="table-borderless">
+		<table class="table">
+			<thead class="table table-info table-striped">
+				<tr>
+					<td></td>
+					<td>Name</td>
+					<td>Size</td>
+					<td>View</td>
+				</tr>
+			</thead>
 			<tbody>
 				<tr th:each="audio : ${audios}">
 					<td><img
 						src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
 						style="width: 30px;"></td>
-					<td><a th:text="${audio.title}" class="btn btn-info"
-						th:href="@{/audios/playAudio(id=${audio.id})}"></a></td>
+					<td><a th:text="${audio.title}"></a></td>
+					<td><a th:text="${audio.size +'k'}"></a></td>
+					<td><a th:href="@{/audios/playAudio(id=${audio.id})}"
+						class="btn btn-info">Play</a></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-
 </body>
 </html>

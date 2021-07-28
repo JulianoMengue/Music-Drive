@@ -50,6 +50,10 @@ public class FotoService {
 		this.fotoRepo.save(foto);
 	}
 
+	public List<Foto> findAll() {
+		return this.findAll();
+	}
+
 	public void delete(Foto foto, String email) {
 		this.deleteFotoFromUser(foto.getId(), email);
 	}
@@ -101,7 +105,7 @@ public class FotoService {
 		Foto newFoto = new Foto();
 		newFoto.setId(foto.getId());
 		newFoto.setTitle(foto.getTitle());
-		newFoto.setSize(file.getSize() / 1024);
+		newFoto.setSize(foto.getSize());
 		newFoto.addOwners(email);
 		User user = new User();
 		user = this.userService.getCurrentUser(email);

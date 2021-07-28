@@ -4,13 +4,12 @@
 <head th:replace="header :: header"></head>
 
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/audios}" class="btn btn-info">Back</a> <br> <br>
-		<h1 class="text-info">Upload Song</h1>
+	<div>
+		<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
+			style="width: 50px;"><br>
+		<br> <a th:href="@{/audios}" class="btn btn-info">Back</a> <br>
+		<br>
+		<h4 class="text-info">Upload Song</h4>
 		<form method="POST" action="/audios/add" enctype="multipart/form-data"
 			class="form-group mb-5">
 			<input type="file" name="audio" accept="audio/*" class="btn btn-info"

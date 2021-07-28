@@ -3,13 +3,11 @@
 <head th:replace="header :: header"></head>
 
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/docs/uploadDoc}" class="btn btn-info">New text</a><br>
-		<br> <br>
+	<div>
+		<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
+			style="width: 50px;"><br>
+		<br> <a th:href="@{/docs/uploadDoc}" class="btn btn-info">New
+			text</a><br> <br> <br>
 		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
 			class="rounded"></h3>
 		<table class="table-borderless">

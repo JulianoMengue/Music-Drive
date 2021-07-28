@@ -2,17 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="header :: header"></head>
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/audios}" class="btn btn-info">Back</a> <br>
+	<div>
+		<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
+			style="width: 50px;"><br> <br> <a
+			th:href="@{/audios}" class="btn btn-info">Back</a> <br>
 		<form method="POST" action="/audios/saveNewName" th:object="${audio}">
 			<input type="hidden" class="form-control" th:field="${audio.id}"
-				required> <br> <h1 class="text-info">Rename audio</h1> <input
-				type="text" class="form-control" th:field="${audio.title}" required>
-			<br>
+				required> <br>
+			<h4 class="text-info">Rename audio</h4>
+			<input type="text" class="form-control" th:field="${audio.title}"
+				required> <br>
 			<button type="submit" class="btn btn-info">Insert new name</button>
 		</form>
 	</div>

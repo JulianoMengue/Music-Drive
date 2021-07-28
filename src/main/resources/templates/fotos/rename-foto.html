@@ -2,15 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="header :: header"></head>
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/fotos/showFoto(id=${foto.id})}" class="btn btn-info">Back</a>
-		<br>
-		<br>
-		<h1 class="text-info">Rename photo</h1>
+	<div>
+		<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
+			style="width: 50px;"><br>
+		<br> <a th:href="@{/fotos/showFoto(id=${foto.id})}"
+			class="btn btn-info">Back</a> <br> <br>
+		<h4 class="text-info">Rename photo</h4>
 		<form method="POST" action="/fotos/saveNewName" th:object="${foto}">
 			<input type="hidden" class="form-control" th:field="${foto.id}"
 				required> <input type="text" class="form-control"
