@@ -2,32 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="header :: header"></head>
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/docs}" class="btn btn-info">Back</a><br> <br>
+	<div>
+
+		<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
+			style="width: 50px;"><br> <br> <a th:href="@{/docs}"
+			class="btn btn-info">Back</a><br> <br>
 		<h3 th:text="*{title}" class="text-info"></h3>
 		<table class="table-borderless">
 			<thead>
 				<tr>
 					<td><a th:href="@{/docs/renameDoc(id=*{id})}"><img
 							src="https://image.flaticon.com/icons/png/512/126/126794.png"
-							style="width: 40px;"></a> <a
+							style="width: 50px;"></a> <a
 						th:href="@{/docs/delete(id=${id})}"><img
 							src="https://image.flaticon.com/icons/png/512/2496/2496733.png"
-							style="width: 40px;"></a> <a th:text="${size+'KB'}"
-						class="btn btn-primary" style="color: white;"></a> <a
+							style="width: 50px;"></a> <a
 						th:href="@{/docs/sendDoc(id=${id})}"><img
-							src="https://image.flaticon.com/icons/png/512/476/476844.png"
-							style="width: 40px;"></a></td>
+							src="https://image.flaticon.com/icons/png/512/889/889578.png"
+							style="width: 50px;"></a></td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td><iframe th:src="*{'data:'+docType+';base64,'+doc}"
-							width="380px;" height="700px;" style="background-color: white;"></iframe></td>
+							width="405px;" height="400px;" style="background-color: white;"></iframe></td>
 				</tr>
 			</tbody>
 		</table>

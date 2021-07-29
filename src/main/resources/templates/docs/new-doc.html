@@ -3,20 +3,18 @@
 <head th:replace="header :: header"></head>
 <body>
 	<div>
-
 		<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
-			style="width: 50px;"><br>
-		<br>
-		<h3 th:text="${fileError}" style="background-color: Tomato;"
-			class="rounded"></h3>
+			style="width: 50px;"><br><br>
 		<a th:href="@{/docs}" class="btn btn-info">Back</a> <br> <br>
-		<h1 class="text-info">New text</h1>
+		<h4 class="text-info">New text</h4>
 		<form method="POST" action="/docs/add" enctype="multipart/form-data"
 			class="form-group mb-5">
 			<input type="file" name="doc" accept=".txt" class="btn btn-info"
 				required> <br> <br> <input type="submit"
 				value="Upload" class="btn btn-info" />
 		</form>
+		<h3 th:text="${fileError}" style="background-color: Tomato;"
+			class="rounded"></h3>
 	</div>
 </body>
 </html>

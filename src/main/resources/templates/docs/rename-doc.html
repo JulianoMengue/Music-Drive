@@ -2,17 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="header :: header"></head>
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/docs}" class="btn btn-info">Back</a> <br>
+	<div>
+		<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
+			style="width: 50px;"><br> <br> <a th:href="@{/docs}"
+			class="btn btn-info">Back</a> <br>
 		<form method="POST" action="/docs/saveNewName" th:object="${doc}">
 			<input type="hidden" class="form-control" th:field="${doc.id}"
-				required> <br> <label>New title:</label> <input
-				type="text" class="form-control" th:field="${doc.title}" required>
-			<br>
+				required> <br>
+			<h4 class="text-info">Rename text</h4>
+			<input type="text" class="form-control" th:field="${doc.title}"
+				required> <br>
 			<button type="submit" class="btn btn-info">Insert new name</button>
 		</form>
 	</div>

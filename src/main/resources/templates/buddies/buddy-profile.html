@@ -5,12 +5,12 @@
 	href="/audit-web/src/main/resources/templates/css/code.css">
 </head>
 <body>
-	<div class="container">
-		<h1>
-			<img src="https://image.flaticon.com/icons/png/512/476/476844.png"
-				style="width: 50px;">
-		</h1>
-		<a th:href="@{/buddies}" class="btn btn-info">Back</a><br> <br>
+	<div>
+
+		<img src="https://image.flaticon.com/icons/png/512/476/476844.png"
+			style="width: 50px;"><br>
+		<br> <a th:href="@{/buddies}" class="btn btn-info">Back</a><br>
+		<br>
 		<h1 class="text-info">Profile</h1>
 		<h4 class="text-info" th:text="${email}"></h4>
 		<a th:href="@{/buddies/messages}"><img

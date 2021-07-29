@@ -3,21 +3,33 @@
 <head th:replace="header :: header"></head>
 
 <body>
+
 	<div>
 		<img src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
-			style="width: 50px;"><br>
-		<br> <a th:href="@{/docs/uploadDoc}" class="btn btn-info">New
-			text</a><br> <br> <br>
+			style="width: 50px;"><br> <br> <a
+			th:href="@{/docs/uploadDoc}" class="btn btn-info">New text</a><br>
 		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
 			class="rounded"></h3>
-		<table class="table-borderless">
+		<table class="table">
+			<thead class="table table-info table-striped">
+				<tr>
+					<td></td>
+					<td></td>
+					<td>Name</td>
+					<td>Size</td>
+					<td>View</td>
+				</tr>
+			</thead>
 			<tbody>
 				<tr th:each="doc : ${docs}">
 					<td><img
 						src="https://image.flaticon.com/icons/png/512/2921/2921724.png"
-						style="width: 30px;"> <a
-						th:href="@{/docs/showDoc(id=${doc.id})}" th:text="${doc.title}"
-						class="btn btn-info"></a></td>
+						style="width: 35px;">
+					<td>
+					<td><a th:text="${doc.title}"></a></td>
+					<td><a th:text="${doc.size +'k'}"></a></td>
+					<td><a th:href="@{/docs/showDoc(id=${doc.id})}"
+						class="btn btn-info">Open</a></td>
 				</tr>
 			</tbody>
 		</table>

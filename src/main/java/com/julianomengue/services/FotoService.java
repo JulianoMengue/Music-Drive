@@ -95,8 +95,9 @@ public class FotoService {
 
 	public String addFoto(MultipartFile file, String email) throws Exception {
 		Foto foto = new Foto();
-		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, this.resizeImage(file)));
-		int i = this.resizeImage(file).length;
+		byte[] Byte = this.resizeImage(file);
+		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, Byte));
+		int i = Byte.length;
 		Long t = (long) i;
 		foto.setSize(t / 1024);
 		foto.addOwners(email);
@@ -116,8 +117,9 @@ public class FotoService {
 
 	public Foto addProfileFoto(MultipartFile file, String email) throws IOException {
 		Foto foto = new Foto();
-		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, this.resizeImage(file)));
-		int i = this.resizeImage(file).length;
+		byte[] Byte = this.resizeImage(file);
+		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, Byte));
+		int i = Byte.length;
 		Long t = (long) i;
 		foto.setSize(t / 1024);
 		foto.addOwners(email);
@@ -127,7 +129,7 @@ public class FotoService {
 
 	public byte[] resizeImage(MultipartFile file) throws IOException {
 		BufferedImage image = Thumbnails.of(file.getInputStream()).scale(1).asBufferedImage();
-		BufferedImage outputImage = Scalr.resize(image, 400);
+		BufferedImage outputImage = Scalr.resize(image, 550);
 		File outputfile = new File("image.png");
 		ImageIO.write(outputImage, "png", outputfile);
 		byte[] bytes = Files.readAllBytes(Paths.get("image.png"));

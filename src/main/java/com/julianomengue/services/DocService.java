@@ -85,7 +85,7 @@ public class DocService {
 		Doc newDoc = new Doc();
 		newDoc.setId(doc.getId());
 		newDoc.setTitle(doc.getTitle());
-		newDoc.addOwners(email);
+		newDoc.setSize(doc.getSize());
 		newDoc.addOwners(email);
 		user.addDoc(newDoc);
 		this.userService.save(user);

@@ -5,13 +5,14 @@
 
 <body>
 	<div>
-
 		<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
-			style="width: 50px;"> <br><br> <a
-			th:href="@{/fotos/showFoto(id=${id})}" class="btn btn-info">Back</a><br><br>
-		<a th:href="@{/fotos/deleteConfirm(id=${id})}" class="btn btn-danger">Delete</a><br>
+			style="width: 50px;"> <br>
+		<br> <a th:href="@{/fotos/showFoto(id=${id})}"
+			class="btn btn-info">Back</a><br>
+		<br> <a th:href="@{/fotos/deleteConfirm(id=${id})}"
+			class="btn btn-danger">Delete</a><br>
 		<h4 th:text=${title} class="text-info"></h4>
-		<img alt="sample" th:src="${image}">
+		<img alt="sample" th:src="${image}" width="50%;">
 	</div>
 </body>
 </html>
