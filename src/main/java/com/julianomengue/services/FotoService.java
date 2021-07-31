@@ -115,16 +115,13 @@ public class FotoService {
 		return foto.getId();
 	}
 
-	public Foto addProfileFoto(MultipartFile file, String email) throws IOException {
+	public String addFotoProfile(MultipartFile file) throws IOException {
 		Foto foto = new Foto();
 		byte[] Byte = this.resizeImage(file);
 		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, Byte));
-		int i = Byte.length;
-		Long t = (long) i;
-		foto.setSize(t / 1024);
-		foto.addOwners(email);
-		foto.setTitle(file.getOriginalFilename());
-		return this.fotoRepo.insert(foto);
+		foto.setTitle("PROFILE_FOTO");
+		foto = this.fotoRepo.insert(foto);
+		return foto.getId();
 	}
 
 	public byte[] resizeImage(MultipartFile file) throws IOException {

@@ -5,6 +5,16 @@ public class Buddy {
 	private String email;
 	private String name;
 
+	public Buddy() {
+		super();
+	}
+
+	public Buddy(String email, String name) {
+		super();
+		this.email = email;
+		this.name = name;
+	}
+
 	public String getEmail() {
 		return email;
 	}
