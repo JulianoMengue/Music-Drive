@@ -9,11 +9,15 @@
 			style="width: 50px;"><br> <br> <a
 			th:href="@{/buddies/yourBuddies}" class="btn btn-info">Add
 			buddies</a> <br>
-		<h3 th:text="${message}" style="background-color: Tomato;font-size: 15px;"
+		<h3 th:text="${message}"
+			style="background-color: Tomato; padding-left: 5px; font-size: 14px; color: white;"
 			class="rounded"></h3>
-		<h3 th:text="${nobody}" style="background-color: Tomato;font-size: 15px;"
+		<h3 th:text="${nobody}"
+			style="background-color: Tomato; padding-left: 5px; font-size: 14px; color: white;"
 			class="rounded"></h3>
-
+		<h3 th:text="${messageGreen}"
+			style="background-color: MediumSeaGreen; padding-left: 5px; font-size: 14px; color: white;"
+			class="rounded"></h3>
 		<table class="table">
 			<thead class="table table-info table-striped">
 				<tr>
@@ -37,6 +41,9 @@
 			</tbody>
 		</table>
 
+		<h3 th:text="${no}"
+			style="background-color: Tomato; color: white; padding-left: 5px; font-size: 14px; width: 50%;"
+			class="rounded"></h3>
 	</div>
 </body>
 </html>

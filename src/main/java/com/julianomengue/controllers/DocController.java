@@ -41,8 +41,14 @@ public class DocController {
 	@GetMapping()
 	public String showDocs(Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
+			List<Doc> docs = this.userService.getCurrentUser(userEmail).getDocs();
+			String no = null;
+			if (docs.size() == 0) {
+				no = "You don't have any texts yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
-			model.addAttribute("docs", this.userService.getCurrentUser(userEmail).getDocs());
+			model.addAttribute("docs", docs);
 			return "docs/docs";
 		} else {
 			model.addAttribute("error", error);
@@ -91,9 +97,7 @@ public class DocController {
 	public String showUserDocBig(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		Doc doc = new Doc();
 		doc = this.docService.findById(id);
-
 		boolean exist = false;
-
 		for (int i = 0; i < doc.getOwners().size(); i++) {
 			if (doc.getOwners().get(i).contentEquals(userEmail)) {
 				exist = true;
@@ -103,7 +107,7 @@ public class DocController {
 		if (!userEmail.isBlank() && exist) {
 			model.addAttribute("userEmail", userEmail);
 			model.addAttribute("doc", this.docService.binaryToString(doc).getDocString());
-			model.addAttribute("title", doc.getTitle());
+			model.addAttribute("title", this.docService.getDocByIdFromUser(id, userEmail).getTitle());
 			model.addAttribute("id", doc.getId());
 			model.addAttribute("size", doc.getSize());
 			model.addAttribute("docType", doc.getDocType());
@@ -118,12 +122,21 @@ public class DocController {
 
 	@GetMapping("/delete")
 	public String deleteDoc(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
-		if (!userEmail.isBlank()) {
+		Doc doc = docService.findById(id);
+		List<String> ownersEmails = doc.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+
+		if (!userEmail.isBlank() && exist) {
+			String title = this.docService.getDocByIdFromUser(id, userEmail).getTitle();
 			model.addAttribute("userEmail", userEmail);
-			Doc doc = docService.findById(id);
 			model.addAttribute("id", doc.getId());
 			model.addAttribute("doc", this.docService.binaryToString(doc).getDocString());
-			model.addAttribute("title", doc.getTitle());
+			model.addAttribute("title", title);
 			model.addAttribute("docType", doc.getDocType());
 			return "docs/delete-doc";
 		} else {
@@ -152,11 +165,20 @@ public class DocController {
 
 	@GetMapping("/renameDoc")
 	public String renameDoc(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
-		if (!userEmail.isBlank()) {
+		Doc doc = docService.findById(id);
+		List<String> ownersEmails = doc.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+
+		if (!userEmail.isBlank() && exist) {
 			model.addAttribute("userEmail", userEmail);
-			Doc doc = new Doc();
-			doc = this.docService.getDocByIdFromUser(id, userEmail);
-			model.addAttribute("doc", doc);
+			Doc newDoc = new Doc();
+			newDoc = this.docService.getDocByIdFromUser(id, userEmail);
+			model.addAttribute("doc", newDoc);
 			return "docs/rename-doc";
 		} else {
 			model.addAttribute("error", error);
@@ -189,18 +211,33 @@ public class DocController {
 	@RequestMapping("/sendDoc")
 	public String sendDocToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id,
 			HttpServletResponse response) {
-		Doc doc = this.docService.getDocByIdFromUser(id, userEmail);
-		List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
-		model.addAttribute("title", doc.getTitle());
-		model.addAttribute("buddies", buddies);
-		model.addAttribute("userEmail", userEmail);
-		Cookie cookie = null;
-		cookie = new Cookie("docId", id);
-		cookie.setSecure(false);
-		cookie.setHttpOnly(false);
-		cookie.setMaxAge(7 * 24 * 60 * 60);
-		response.addCookie(cookie);
-		return "docs/send-doc-to-buddy";
+		Doc doc = docService.findById(id);
+		List<String> ownersEmails = doc.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+		if (!userEmail.isBlank() && exist) {
+			String title = this.docService.getDocByIdFromUser(id, userEmail).getTitle();
+			List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+			model.addAttribute("title", title);
+			model.addAttribute("buddies", buddies);
+			model.addAttribute("userEmail", userEmail);
+			Cookie cookie = null;
+			cookie = new Cookie("docId", id);
+			cookie.setSecure(false);
+			cookie.setHttpOnly(false);
+			cookie.setMaxAge(7 * 24 * 60 * 60);
+			response.addCookie(cookie);
+			return "docs/send-doc-to-buddy";
+		} else {
+			model.addAttribute("error", error);
+			User user = new User();
+			model.addAttribute("user", user);
+			return "users/user-login";
+		}
 	}
 
 	@RequestMapping("/sendDocToBuddy")

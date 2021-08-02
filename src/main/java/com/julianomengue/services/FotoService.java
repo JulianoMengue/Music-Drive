@@ -14,6 +14,8 @@ import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +33,9 @@ public class FotoService {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
 	public Foto binaryToString(Foto foto) {
 		String plus = "data:image/png;base64,";
@@ -125,12 +130,31 @@ public class FotoService {
 	}
 
 	public byte[] resizeImage(MultipartFile file) throws IOException {
-		BufferedImage image = Thumbnails.of(file.getInputStream()).scale(1).asBufferedImage();
-		BufferedImage outputImage = Scalr.resize(image, 550);
+		BufferedImage outputImage = Scalr.resize(Thumbnails.of(file.getInputStream()).scale(1).asBufferedImage(), 500);
 		File outputfile = new File("image.png");
 		ImageIO.write(outputImage, "png", outputfile);
 		byte[] bytes = Files.readAllBytes(Paths.get("image.png"));
 		return bytes;
+	}
+
+	public void deleteFotosWithoutOwners() {
+		List<Foto> fotos = getFotos();
+		for (int i = 0; i < fotos.size(); i++) {
+			if (fotos.get(i).getId() != "610514c386d1db45a6de1c17") {
+				if (!fotos.get(i).getTitle().contentEquals("PROFILE_FOTO")) {
+					if (fotos.get(i).getOwners().size() == 0) {
+						this.fotoRepo.delete(fotos.get(i));
+					}
+				}
+			}
+		}
+	}
+
+	public List<Foto> getFotos() {
+		Query query = new Query();
+		query.fields().include("_id", "title", "owners", "size");
+		List<Foto> list = mongoTemplate.find(query, Foto.class);
+		return list;
 	}
 
 }

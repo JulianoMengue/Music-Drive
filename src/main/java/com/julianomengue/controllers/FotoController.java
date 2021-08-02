@@ -37,10 +37,17 @@ public class FotoController {
 	String error = "Not allowed!";
 
 	@GetMapping()
-	public String showFotos(Model model, @CookieValue("email") String userEmail) {
+	public String fotos(Model model, @CookieValue("email") String userEmail) {
+		this.fotoService.deleteFotosWithoutOwners();
 		if (!userEmail.isBlank()) {
+			List<Foto> fotos = this.userService.getCurrentUser(userEmail).getFotos();
+			String no = null;
+			if (fotos.size() == 0) {
+				no = "You don't have any photos yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
-			model.addAttribute("fotos", this.userService.getCurrentUser(userEmail).getFotos());
+			model.addAttribute("fotos", fotos);
 			return "fotos/fotos";
 		} else {
 			model.addAttribute("error", error);
@@ -79,7 +86,7 @@ public class FotoController {
 	}
 
 	@GetMapping("/showFoto")
-	public String showUserFotoBig(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
+	public String showFoto(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
 		Foto foto = new Foto();
 		foto = this.fotoService.findById(id);
 		boolean exist = false;
@@ -107,8 +114,16 @@ public class FotoController {
 
 	@GetMapping("/delete")
 	public String deleteFoto(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
-		if (!userEmail.isBlank()) {
-			Foto foto = fotoService.findById(id);
+		Foto foto = fotoService.findById(id);
+		List<String> ownersEmails = foto.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+
+		if (!userEmail.isBlank() && exist) {
 			String title = this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle();
 			model.addAttribute("id", foto.getId());
 			model.addAttribute("image", this.fotoService.binaryToString(foto).getFotoString());
@@ -141,11 +156,19 @@ public class FotoController {
 
 	@GetMapping("/renameFoto")
 	public String renameFoto(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
-		if (!userEmail.isBlank()) {
+		Foto foto = fotoService.findById(id);
+		List<String> ownersEmails = foto.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+
+		if (!userEmail.isBlank() && exist) {
 			model.addAttribute("userEmail", userEmail);
-			Foto foto = new Foto();
-			foto = this.fotoService.getFotoByIdFromUser(id, userEmail);
-			model.addAttribute("foto", foto);
+			Foto newFoto = this.fotoService.getFotoByIdFromUser(id, userEmail);
+			model.addAttribute("foto", newFoto);
 			return "fotos/rename-foto";
 		} else {
 			model.addAttribute("error", error);
@@ -174,20 +197,35 @@ public class FotoController {
 	@RequestMapping("/sendFoto")
 	public String sendFotoToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id,
 			HttpServletResponse response) {
-		Foto foto = this.fotoService.findById(id);
-		foto.setTitle(this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle());
-		List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
-		model.addAttribute("foto", this.fotoService.binaryToString(foto));
-		model.addAttribute("id", foto.getId());
-		model.addAttribute("buddies", buddies);
-		model.addAttribute("userEmail", userEmail);
-		Cookie cookie = null;
-		cookie = new Cookie("fotoId", id);
-		cookie.setSecure(false);
-		cookie.setHttpOnly(false);
-		cookie.setMaxAge(7 * 24 * 60 * 60);
-		response.addCookie(cookie);
-		return "fotos/send-foto-to-buddy";
+		Foto foto = fotoService.findById(id);
+		List<String> ownersEmails = foto.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+
+		if (!userEmail.isBlank() && exist) {
+			foto.setTitle(this.fotoService.getFotoByIdFromUser(id, userEmail).getTitle());
+			List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+			model.addAttribute("foto", this.fotoService.binaryToString(foto));
+			model.addAttribute("id", foto.getId());
+			model.addAttribute("buddies", buddies);
+			model.addAttribute("userEmail", userEmail);
+			Cookie cookie = null;
+			cookie = new Cookie("fotoId", id);
+			cookie.setSecure(false);
+			cookie.setHttpOnly(false);
+			cookie.setMaxAge(7 * 24 * 60 * 60);
+			response.addCookie(cookie);
+			return "fotos/send-foto-to-buddy";
+		} else {
+			model.addAttribute("error", error);
+			User user = new User();
+			model.addAttribute("user", user);
+			return "users/user-login";
+		}
 	}
 
 	@RequestMapping("/sendFotoToBuddy")

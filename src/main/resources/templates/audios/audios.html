@@ -8,7 +8,8 @@
 		<img src="https://image.flaticon.com/icons/png/512/3655/3655252.png"
 			style="width: 50px;"><br> <br> <a
 			th:href="@{/audios/uploadAudio}" class="btn btn-info">New Audio</a> <br>
-		<h3 th:text="${message}" style="background-color: MediumSeaGreen;"
+		<h3 th:text="${message}"
+			style="background-color: MediumSeaGreen; color: white; padding-left: 5px; font-size: 14px;"
 			class="rounded"></h3>
 		<table class="table">
 			<thead class="table table-info table-striped">
@@ -16,7 +17,7 @@
 					<td></td>
 					<td>Name</td>
 					<td>Size</td>
-					<td>View</td>
+					<td>Play</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -26,11 +27,15 @@
 						style="width: 35px;"></td>
 					<td><a th:text="${audio.title}"></a></td>
 					<td><a th:text="${audio.size +'k'}"></a></td>
-					<td><a th:href="@{/audios/playAudio(id=${audio.id})}"
-						class="btn btn-info">Play</a></td>
+					<td><a th:href="@{/audios/playAudio(id=${audio.id})}"><img
+							src="https://image.flaticon.com/icons/png/512/179/179401.png"
+							style="width: 40px;"></a></td>
 				</tr>
 			</tbody>
 		</table>
+		<h3 th:text="${no}"
+			style="background-color: Tomato; color: white; padding-left: 5px; font-size: 14px; width: 50%;"
+			class="rounded"></h3>
 	</div>
 </body>
 </html>

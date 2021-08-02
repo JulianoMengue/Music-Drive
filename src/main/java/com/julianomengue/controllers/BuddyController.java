@@ -38,6 +38,11 @@ public class BuddyController {
 	public String yourBuddies(Model model, @CookieValue("email") String userEmail) throws IOException {
 		if (!userEmail.isBlank()) {
 			List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+			String no = null;
+			if (buddies.size() == 0) {
+				no = "You don't have any buddy yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
 			model.addAttribute("buddies", buddies);
 			return "buddies/buddies";
@@ -53,6 +58,11 @@ public class BuddyController {
 	public String getNotYourBuddies(Model model, @CookieValue("email") String userEmail) {
 		if (!userEmail.isBlank()) {
 			List<Buddy> buddies = this.buddyService.getAllNotYourBuddies(userEmail);
+			String no = null;
+			if (buddies.size() == 0) {
+				no = "You don't have any buddy yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
 			model.addAttribute("buddies", buddies);
 			return "buddies/your-buddies";
@@ -143,10 +153,15 @@ public class BuddyController {
 			this.userService.save(buddy);
 
 			model.addAttribute("messageGreen", email + message);
-			List<Buddy> buddies = this.buddyService.getAllNotYourBuddies(userEmail);
+			List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+			String no = null;
+			if (buddies.size() == 0) {
+				no = "You don't have any buddy yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
 			model.addAttribute("buddies", buddies);
-			return "buddies/your-buddies";
+			return "buddies/buddies";
 
 		} else {
 			User user = new User();
@@ -168,6 +183,11 @@ public class BuddyController {
 			this.userService.save(buddy);
 			model.addAttribute("message", email + message);
 			List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+			String no = null;
+			if (buddies.size() == 0) {
+				no = "You don't have any buddy yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
 			model.addAttribute("buddies", buddies);
 			return "buddies/buddies";

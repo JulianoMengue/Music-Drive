@@ -8,7 +8,7 @@
 			style="width: 50px;"><br> <br> <a
 			th:href="@{/fotos/showFoto(id=*{id})}" class="btn btn-info">Back</a><br>
 		<br>
-		<h4 th:text="${'Send (' +foto.title + ') to:'}" class="text-info"></h4>
+		<h4 th:text="${'Send ' +foto.title + ' to:'}" class="text-info"></h4>
 		<table class="table-borderless">
 			<tbody>
 				<tr th:each="buddy : ${buddies}">

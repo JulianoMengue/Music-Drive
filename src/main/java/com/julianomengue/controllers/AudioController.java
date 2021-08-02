@@ -41,8 +41,14 @@ public class AudioController {
 	@GetMapping()
 	public String getAllAudios(Model model, @CookieValue("email") String userEmail) throws IOException {
 		if (!userEmail.isBlank()) {
+			List<Audio> audios = this.userService.getCurrentUser(userEmail).getAudios();
+			String no = null;
+			if (audios.size() == 0) {
+				no = "You don't have any audios yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
-			model.addAttribute("audios", this.userService.getCurrentUser(userEmail).getAudios());
+			model.addAttribute("audios", audios);
 			return "audios/audios";
 		} else {
 			User user = new User();
@@ -86,7 +92,6 @@ public class AudioController {
 		Audio audio = new Audio();
 		audio = this.audioService.findById(id);
 		String name = this.audioService.getAudioByIdFromUser(id, userEmail).getTitle();
-		audio.setTitle(name);
 		boolean exist = false;
 		for (int i = 0; i < audio.getOwners().size(); i++) {
 			if (audio.getOwners().get(i).contentEquals(userEmail)) {
@@ -96,7 +101,7 @@ public class AudioController {
 		if (!userEmail.isBlank() && exist) {
 			model.addAttribute("userEmail", userEmail);
 			model.addAttribute("id", audio.getId());
-			model.addAttribute("title", audio.getTitle());
+			model.addAttribute("title", name);
 			model.addAttribute("size", audio.getSize());
 			model.addAttribute("audio", Base64.getEncoder().encodeToString(audio.getAudioBinary().getData()));
 			return "audios/show-audio";
@@ -110,11 +115,18 @@ public class AudioController {
 
 	@GetMapping("/delete")
 	public String deleteAudio(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
-		if (!userEmail.isBlank()) {
-			Audio audio = new Audio();
-			audio = this.audioService.getAudioByIdFromUser(id, userEmail);
+		Audio audio = this.audioService.findById(id);
+		List<String> ownersEmails = audio.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+		if (!userEmail.isBlank() && exist) {
+			String title = this.audioService.getAudioByIdFromUser(id, userEmail).getTitle();
 			model.addAttribute("id", audio.getId());
-			model.addAttribute("title", audio.getTitle());
+			model.addAttribute("title", title);
 			model.addAttribute("userEmail", userEmail);
 			return "audios/delete-audio";
 		} else {
@@ -145,11 +157,18 @@ public class AudioController {
 
 	@GetMapping("/renameAudio")
 	public String renameAudio(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
-		if (!userEmail.isBlank()) {
-			Audio audio = new Audio();
-			audio = this.audioService.getAudioByIdFromUser(id, userEmail);
+		Audio audio = this.audioService.findById(id);
+		List<String> ownersEmails = audio.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+		if (!userEmail.isBlank() && exist) {
+			Audio newAudio = this.audioService.getAudioByIdFromUser(id, userEmail);
 			model.addAttribute("userEmail", userEmail);
-			model.addAttribute("audio", audio);
+			model.addAttribute("audio", newAudio);
 			return "audios/rename-audio";
 		} else {
 			User user = new User();
@@ -178,18 +197,34 @@ public class AudioController {
 	@RequestMapping("/sendAudio")
 	public String sendAudioToBuddy(Model model, @CookieValue("email") String userEmail, @RequestParam String id,
 			HttpServletResponse response) {
-		Audio audio = this.audioService.getAudioByIdFromUser(id, userEmail);
-		List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
-		Cookie cookie = null;
-		cookie = new Cookie("audioId", id);
-		cookie.setSecure(false);
-		cookie.setHttpOnly(false);
-		cookie.setMaxAge(7 * 24 * 60 * 60);
-		response.addCookie(cookie);
-		model.addAttribute("title", audio.getTitle());
-		model.addAttribute("buddies", buddies);
-		model.addAttribute("userEmail", userEmail);
-		return "audios/send-audio-to-buddy";
+		Audio audio = this.audioService.findById(id);
+		List<String> ownersEmails = audio.getOwners();
+		boolean exist = false;
+		for (int i = 0; i < ownersEmails.size(); i++) {
+			if (ownersEmails.get(i).contentEquals(userEmail)) {
+				exist = true;
+			}
+		}
+		if (!userEmail.isBlank() && exist) {
+			String title = this.audioService.getAudioByIdFromUser(id, userEmail).getTitle();
+			List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
+			Cookie cookie = null;
+			cookie = new Cookie("audioId", id);
+			cookie.setSecure(false);
+			cookie.setHttpOnly(false);
+			cookie.setMaxAge(7 * 24 * 60 * 60);
+			response.addCookie(cookie);
+			model.addAttribute("title", title);
+			model.addAttribute("buddies", buddies);
+			model.addAttribute("userEmail", userEmail);
+			return "audios/send-audio-to-buddy";
+		} else {
+			User user = new User();
+			model.addAttribute("error", error);
+			model.addAttribute("user", user);
+			return "users/user-login";
+		}
+
 	}
 
 	@RequestMapping("/sendAudioToBuddy")

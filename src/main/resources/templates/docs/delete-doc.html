@@ -10,13 +10,13 @@
 			th:href="@{/docs/showDoc(id=${id})}" class="btn btn-info">Back</a> <br>
 		<br>
 		<h4 th:text="${title}" class="text-info"></h4>
-		<a th:href="@{/docs/deleteConfirm(id=${id})}" class="btn btn-danger">Delete</a>
+
 		<table class="table-borderless">
 			<tbody>
 				<tr>
 					<td><iframe th:src="*{'data:'+docType+';base64,'+doc}"
-							width="380px;" height="700px;" style="background-color: white;">
-						</iframe></td>
+							width="405px;" height="400px;" style="background-color: white;"></iframe><a
+						th:href="@{/docs/deleteConfirm(id=${id})}" class="btn btn-danger">Delete</a></td>
 				</tr>
 			</tbody>
 		</table>

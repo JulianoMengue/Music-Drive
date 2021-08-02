@@ -6,11 +6,10 @@
 	<div>
 
 		<img src="https://image.flaticon.com/icons/png/512/833/833539.png"
-			style="width: 50px;"> <br>
-		<br>
-		<a th:href="@{/fotos/uploadFoto}" class="btn btn-info">New photo</a> <br>
+			style="width: 50px;"> <br> <br> <a
+			th:href="@{/fotos/uploadFoto}" class="btn btn-info">New photo</a> <br>
 		<h3 th:text="${message}"
-			style="background-color: MediumSeaGreen; font-size: 15px;"
+			style="background-color: MediumSeaGreen; color: white; padding-left: 5px; font-size: 14px;"
 			class="rounded"></h3>
 		<table class="table">
 			<thead class="table table-info table-striped">
@@ -33,6 +32,9 @@
 				</tr>
 			</tbody>
 		</table>
+		<h3 th:text="${no}"
+			style="background-color: Tomato; color: white; padding-left: 5px; font-size: 14px; width: 50%;"
+			class="rounded"></h3>
 	</div>
 </body>
 </html>
