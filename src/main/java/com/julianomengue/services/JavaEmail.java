@@ -15,8 +15,8 @@ import com.julianomengue.classes.User;
 
 public class JavaEmail {
 
-	private static String email = "audittool2020@gmail.com";
-	private static String password = "vchjvqkbbcdynval";
+	private static String email = "";
+	private static String password = "";
 
 	public static String getJavaMailSender(User user) {
 		String passwordUser = "";
