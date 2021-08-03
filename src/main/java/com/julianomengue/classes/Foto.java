@@ -19,7 +19,7 @@ public class Foto {
 
 	private String fotoString;
 
-	private Long size;
+	private int size;
 
 	public Foto() {
 	}
@@ -37,12 +37,12 @@ public class Foto {
 		this.fotoString = fotoString;
 	}
 
-	public Foto(Binary fotoBinary, Long size, String title, String owner) {
+	public Foto(Binary fotobinary, int size, String owner, String title) {
 		super();
-		this.fotobinary = fotoBinary;
-		this.size = size;
 		this.title = title;
 		this.owners.add(owner);
+		this.fotobinary = fotobinary;
+		this.size = size;
 	}
 
 	public Foto(String id, Binary fotobinary, String fotoString) {
@@ -50,6 +50,14 @@ public class Foto {
 		this.id = id;
 		this.fotobinary = fotobinary;
 		this.fotoString = fotoString;
+	}
+
+	public Foto(String id, String title, List<String> owners, int size) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.owners = owners;
+		this.size = size;
 	}
 
 	public String getId() {
@@ -84,11 +92,11 @@ public class Foto {
 		this.title = title;
 	}
 
-	public Long getSize() {
+	public int getSize() {
 		return size;
 	}
 
-	public void setSize(Long size) {
+	public void setSize(int size) {
 		this.size = size;
 	}
 

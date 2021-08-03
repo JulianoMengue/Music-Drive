@@ -40,6 +40,7 @@ public class AudioController {
 
 	@GetMapping()
 	public String getAllAudios(Model model, @CookieValue("email") String userEmail) throws IOException {
+		this.audioService.deleteAudiosWithoutOwners();
 		if (!userEmail.isBlank()) {
 			List<Audio> audios = this.userService.getCurrentUser(userEmail).getAudios();
 			String no = null;

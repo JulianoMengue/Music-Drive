@@ -95,26 +95,15 @@ public class FotoService {
 				this.userService.save(user);
 			}
 		}
-
 	}
 
 	public String addFoto(MultipartFile file, String email) throws Exception {
-		Foto foto = new Foto();
 		byte[] Byte = this.resizeImage(file);
-		foto.setFotobinary(new Binary(BsonBinarySubType.BINARY, Byte));
-		int i = Byte.length;
-		Long t = (long) i;
-		foto.setSize(t / 1024);
-		foto.addOwners(email);
-		foto.setTitle(file.getOriginalFilename());
+		Foto foto = new Foto(new Binary(BsonBinarySubType.BINARY, Byte), Byte.length / 1024, email,
+				file.getOriginalFilename());
 		foto = this.fotoRepo.insert(foto);
-		Foto newFoto = new Foto();
-		newFoto.setId(foto.getId());
-		newFoto.setTitle(foto.getTitle());
-		newFoto.setSize(foto.getSize());
-		newFoto.addOwners(email);
-		User user = new User();
-		user = this.userService.getCurrentUser(email);
+		Foto newFoto = new Foto(foto.getId(), foto.getTitle(), foto.getOwners(), foto.getSize());
+		User user = this.userService.getCurrentUser(email);
 		user.addFotos(newFoto);
 		this.userService.save(user);
 		return foto.getId();

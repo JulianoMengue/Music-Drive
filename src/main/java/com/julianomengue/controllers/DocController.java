@@ -74,15 +74,9 @@ public class DocController {
 	@PostMapping("/add")
 	public String addDoc(@RequestParam("doc") MultipartFile doc, Model model, @CookieValue("email") String userEmail)
 			throws Exception {
-		if (!userEmail.isBlank() && doc.getContentType().contentEquals("text/plain")) {
+		if (!userEmail.isBlank()) {
 			this.docService.addDoc(doc, userEmail);
 			return "redirect:/docs";
-		}
-
-		else if (!doc.getContentType().contentEquals("text/plain") && !userEmail.isBlank()) {
-			model.addAttribute("fileError", doc.getContentType() + " " + fileError);
-			model.addAttribute("userEmail", userEmail);
-			return "docs/new-doc";
 		}
 
 		else {
@@ -91,6 +85,7 @@ public class DocController {
 			model.addAttribute("user", user);
 			return "users/user-login";
 		}
+
 	}
 
 	@GetMapping("/showDoc")

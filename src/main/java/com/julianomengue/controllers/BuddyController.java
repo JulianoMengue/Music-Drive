@@ -40,7 +40,7 @@ public class BuddyController {
 			List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
 			String no = null;
 			if (buddies.size() == 0) {
-				no = "You don't have any buddy yet.";
+				no = "You don't have any buddies yet.";
 			}
 			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
@@ -60,7 +60,7 @@ public class BuddyController {
 			List<Buddy> buddies = this.buddyService.getAllNotYourBuddies(userEmail);
 			String no = null;
 			if (buddies.size() == 0) {
-				no = "You don't have any buddy yet.";
+				no = "You don't have any buddies yet.";
 			}
 			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);
@@ -185,7 +185,7 @@ public class BuddyController {
 			List<Buddy> buddies = this.userService.getCurrentUser(userEmail).getBuddies();
 			String no = null;
 			if (buddies.size() == 0) {
-				no = "You don't have any buddy yet.";
+				no = "You don't have any buddies yet.";
 			}
 			model.addAttribute("no", no);
 			model.addAttribute("userEmail", userEmail);

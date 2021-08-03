@@ -24,8 +24,13 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><iframe th:src="*{'data:'+docType+';base64,'+doc}"
+					<td><iframe th:src="${'data:'+docType+';base64,'+doc}"
 							width="405px;" height="400px;" style="background-color: white;"></iframe></td>
+
+				</tr>
+
+				<tr>
+
 				</tr>
 			</tbody>
 		</table>

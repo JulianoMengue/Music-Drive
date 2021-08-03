@@ -105,16 +105,22 @@ public class FotoController {
 			model.addAttribute("id", foto.getId());
 			return "fotos/show-foto";
 		} else {
+			List<Foto> fotos = this.userService.getCurrentUser(userEmail).getFotos();
+			String no = null;
+			if (fotos.size() == 0) {
+				no = "You don't have any photos yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("error", error);
-			User user = new User();
-			model.addAttribute("user", user);
-			return "users/user-login";
+			model.addAttribute("userEmail", userEmail);
+			model.addAttribute("fotos", fotos);
+			return "fotos/fotos";
 		}
 	}
 
 	@GetMapping("/delete")
 	public String deleteFoto(@RequestParam String id, Model model, @CookieValue("email") String userEmail) {
-		Foto foto = fotoService.findById(id);
+		Foto foto = this.fotoService.findById(id);
 		List<String> ownersEmails = foto.getOwners();
 		boolean exist = false;
 		for (int i = 0; i < ownersEmails.size(); i++) {
@@ -131,10 +137,16 @@ public class FotoController {
 			model.addAttribute("userEmail", userEmail);
 			return "fotos/delete-foto";
 		} else {
+			List<Foto> fotos = this.userService.getCurrentUser(userEmail).getFotos();
+			String no = null;
+			if (fotos.size() == 0) {
+				no = "You don't have any photos yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("error", error);
-			User user = new User();
-			model.addAttribute("user", user);
-			return "users/user-login";
+			model.addAttribute("userEmail", userEmail);
+			model.addAttribute("fotos", fotos);
+			return "fotos/fotos";
 		}
 	}
 
@@ -171,10 +183,16 @@ public class FotoController {
 			model.addAttribute("foto", newFoto);
 			return "fotos/rename-foto";
 		} else {
+			List<Foto> fotos = this.userService.getCurrentUser(userEmail).getFotos();
+			String no = null;
+			if (fotos.size() == 0) {
+				no = "You don't have any photos yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("error", error);
-			User user = new User();
-			model.addAttribute("user", user);
-			return "users/user-login";
+			model.addAttribute("userEmail", userEmail);
+			model.addAttribute("fotos", fotos);
+			return "fotos/fotos";
 		}
 	}
 
@@ -221,10 +239,16 @@ public class FotoController {
 			response.addCookie(cookie);
 			return "fotos/send-foto-to-buddy";
 		} else {
+			List<Foto> fotos = this.userService.getCurrentUser(userEmail).getFotos();
+			String no = null;
+			if (fotos.size() == 0) {
+				no = "You don't have any photos yet.";
+			}
+			model.addAttribute("no", no);
 			model.addAttribute("error", error);
-			User user = new User();
-			model.addAttribute("user", user);
-			return "users/user-login";
+			model.addAttribute("userEmail", userEmail);
+			model.addAttribute("fotos", fotos);
+			return "fotos/fotos";
 		}
 	}
 

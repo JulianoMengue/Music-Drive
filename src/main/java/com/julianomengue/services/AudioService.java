@@ -6,6 +6,8 @@ import java.util.List;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +23,9 @@ public class AudioService {
 
 	@Autowired
 	public UserService userService;
+
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
 	public Audio findById(String id) {
 		return this.audioRepo.findById(id).get();
@@ -95,6 +100,24 @@ public class AudioService {
 		user.getAudios().add(newAudio);
 		this.userService.save(user);
 		return audio.getId();
+	}
+
+	public List<Audio> getAudios() {
+		Query query = new Query();
+		query.fields().include("_id", "title", "owners", "size");
+		List<Audio> list = mongoTemplate.find(query, Audio.class);
+		return list;
+	}
+
+	public void deleteAudiosWithoutOwners() {
+		List<Audio> audios = getAudios();
+		for (int i = 0; i < audios.size(); i++) {
+
+			if (audios.get(i).getOwners().size() == 0) {
+				this.audioRepo.delete(audios.get(i));
+			}
+		}
+
 	}
 
 }
