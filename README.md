@@ -6,3 +6,5 @@ Der User kann ein Profil mit seinem Namen, Adresse, einem Profilbild usw. erstel
 
 Verwendete Technologien:
 Für das Frontend habe ich CSS, Thymeleaf und Bootstrap verwendet. Mit Spring Boot, MongoDB Atlas und ThymeLeaf habe ich die Verbindung zwischen HTML/CSS Files und Java Methods hergestellt. Maven nutzte ich, um die Dependencies zu bearbeiten und verwalten. Repositories, Services und Controllers wurden in Form von REST-API geschrieben. Die Sicherheit habe ich durch Spring Security gewährleistet. Versionen: Java11, Spring Boot 2.4.3
+
+https://music-drive-staut.herokuapp.com/
